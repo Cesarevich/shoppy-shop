@@ -34,10 +34,10 @@ test:
 	docker compose exec php-fpm php bin/phpunit
 
 fix:
-	docker compose exec php-fpm vendor/bin/ecs check --fix
+	docker compose exec php-fpm composer cs:fix
 
 check:
-	docker compose exec php-fpm vendor/bin/ecs check
+	docker compose exec php-fpm composer cs:check
 
 phpstan:
 	docker compose exec php-fpm vendor/bin/phpstan analyse -c phpstan.neon --ansi
