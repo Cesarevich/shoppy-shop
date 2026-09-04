@@ -1,0 +1,55 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Catalog\Product\Application\Create;
+
+use App\Catalog\Product\Domain\Dimensions;
+use App\Catalog\Product\Domain\Ean;
+use App\Catalog\Product\Domain\ListingStatus;
+use App\Catalog\Product\Domain\Money;
+use App\Catalog\Product\Domain\ProductDescription;
+use App\Catalog\Product\Domain\ProductId;
+use App\Catalog\Product\Domain\ProductTitle;
+use App\Catalog\Product\Domain\ProductType;
+use App\Catalog\Product\Domain\Year;
+use App\Shared\Domain\Bus\Command\CommandHandler;
+use InvalidArgumentException;
+use ValueError;
+
+final readonly class CreateProductCommandHandler implements CommandHandler
+{
+    public function __construct(private ProductCreator $creator) {}
+
+    public function __invoke(CreateProductCommand $command): void
+    {
+        try {
+            $listingStatus = ListingStatus::from($command->listingStatus());
+        } catch (ValueError) {
+            throw new InvalidArgumentException(
+                sprintf('Listing status <%s> is not allowed.', $command->listingStatus()),
+            );
+        }
+
+        $description = $command->description();
+        $ean = $command->ean();
+        $year = $command->year();
+
+        $this->creator->__invoke(
+            new ProductId($command->id()),
+            new ProductType($command->type()),
+            new ProductTitle($command->title()),
+            null !== $ean ? new Ean($ean) : null,
+            null !== $description ? new ProductDescription($description) : null,
+            null !== $year ? new Year($year) : null,
+            Dimensions::fromPrimitives(
+                $command->weight(),
+                $command->length(),
+                $command->width(),
+                $command->height(),
+            ),
+            $listingStatus,
+            new Money($command->listPriceAmount(), $command->listPriceCurrency()),
+        );
+    }
+}
