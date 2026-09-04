@@ -1,0 +1,25 @@
+@host = http://localhost:8083
+
+### Create product (Course-style PUT, client-supplied UUID)
+PUT {{host}}/products/1c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e14
+Accept: application/json
+Content-Type: application/json
+
+{
+  "type": "book",
+  "title": "Clean Architecture",
+  "ean": "9780134494166",
+  "description": "A craftsman guide",
+  "year": 2017,
+  "weight": 500,
+  "length": 240,
+  "width": 160,
+  "height": 30,
+  "listingStatus": "draft",
+  "listPriceAmount": 4500,
+  "listPriceCurrency": "BYN"
+}
+
+### Get product
+GET {{host}}/products/1c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e13
+Accept: application/json

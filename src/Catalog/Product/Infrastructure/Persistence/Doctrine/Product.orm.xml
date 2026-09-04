@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Catalog\Product\Domain\Product" table="catalog_products">
+        <id name="id" type="product_id" column="id" length="36" />
+
+        <field name="type" type="product_type" column="type" length="32" />
+        <field name="title" type="product_title" column="title" length="255" />
+        <field name="ean" type="ean" column="ean" length="13" nullable="true" />
+        <field name="description" type="product_description" column="description" nullable="true" />
+        <field name="year" type="product_year" column="year" nullable="true" />
+        <field name="listingStatus" column="listing_status" length="32" enum-type="App\Catalog\Product\Domain\ListingStatus" />
+
+        <embedded name="dimensions" class="App\Catalog\Product\Domain\Dimensions" use-column-prefix="false" />
+        <embedded name="listPrice" class="App\Catalog\Product\Domain\Money" column-prefix="list_price_" />
+    </entity>
+
+</doctrine-mapping>
