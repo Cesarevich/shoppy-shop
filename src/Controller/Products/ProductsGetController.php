@@ -18,7 +18,7 @@ final class ProductsGetController
 {
     public function __construct(private readonly QueryBus $queryBus) {}
 
-    #[Route('/products/{id}', name: 'products_get', methods: ['GET'])]
+    #[Route('/products/{id}', name: 'products_get', methods: ['GET'], requirements: ['id' => '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'])]
     public function __invoke(string $id): Response
     {
         try {

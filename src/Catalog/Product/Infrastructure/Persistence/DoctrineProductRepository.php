@@ -7,6 +7,7 @@ namespace App\Catalog\Product\Infrastructure\Persistence;
 use App\Catalog\Product\Domain\Product;
 use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Product\Domain\ProductRepository;
+use App\Catalog\Product\Domain\Products;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineRepository;
 
 final class DoctrineProductRepository extends DoctrineRepository implements ProductRepository
@@ -19,5 +20,10 @@ final class DoctrineProductRepository extends DoctrineRepository implements Prod
     public function search(ProductId $id): ?Product
     {
         return $this->repository(Product::class)->find($id);
+    }
+
+    public function searchAll(): Products
+    {
+        return new Products($this->repository(Product::class)->findAll());
     }
 }
