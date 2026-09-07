@@ -6,7 +6,7 @@ namespace App\Catalog\Product\Application\Find;
 
 use App\Catalog\Product\Domain\Product;
 use App\Catalog\Product\Domain\ProductId;
-use App\Catalog\Product\Domain\ProductNotExist;
+use App\Catalog\Product\Domain\TypeNotExist;
 use App\Catalog\Product\Domain\ProductRepository;
 
 final readonly class ProductFinder
@@ -17,7 +17,7 @@ final readonly class ProductFinder
     {
         $product = $this->repository->search($id);
         if (null === $product) {
-            throw new ProductNotExist($id);
+            throw new TypeNotExist($id);
         }
 
         return $product;

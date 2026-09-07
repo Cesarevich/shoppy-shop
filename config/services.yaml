@@ -20,6 +20,7 @@ services:
         exclude:
             - '../src/Kernel.php'
             - '../src/Catalog/Product/Domain/'
+            - '../src/Catalog/Type/Domain/'
             - '../src/Shared/Domain/'
 
     App\Shared\Infrastructure\Bus\Command\InMemoryCommandBus:
@@ -38,3 +39,4 @@ services:
     App\Shared\Domain\Bus\Query\QueryBus: '@App\Shared\Infrastructure\Bus\Query\InMemoryQueryBus'
     App\Shared\Domain\Bus\Event\EventBus: '@App\Shared\Infrastructure\Bus\Event\InMemoryEventBus'
     App\Catalog\Product\Domain\ProductRepository: '@App\Catalog\Product\Infrastructure\Persistence\DoctrineProductRepository'
+    App\Catalog\Type\Domain\TypeRepository: '@App\Catalog\Type\Infrastructure\Persistence\DoctrineTypeRepository'

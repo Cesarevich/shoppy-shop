@@ -6,8 +6,9 @@ namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Find\FindProductQuery;
 use App\Catalog\Product\Application\Find\ProductResponse;
-use App\Catalog\Product\Domain\ProductNotExist;
+use App\Catalog\Product\Domain\TypeNotExist;
 use App\Shared\Domain\Bus\Query\QueryBus;
+use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -18,12 +19,12 @@ final class ProductsGetController
 {
     public function __construct(private readonly QueryBus $queryBus) {}
 
-    #[Route('/products/{id}', name: 'products_get', methods: ['GET'], requirements: ['id' => '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}'])]
+    #[Route('/products/{id}', name: 'products_get', methods: ['GET'], requirements: ['id' => Uuid::PATTERN])]
     public function __invoke(string $id): Response
     {
         try {
             $response = $this->queryBus->ask(new FindProductQuery($id));
-        } catch (ProductNotExist) {
+        } catch (TypeNotExist) {
             return new JsonResponse(['error' => 'product_not_exist'], Response::HTTP_NOT_FOUND);
         }
 

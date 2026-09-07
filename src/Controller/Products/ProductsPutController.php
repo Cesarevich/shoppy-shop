@@ -6,6 +6,7 @@ namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Create\CreateProductCommand;
 use App\Shared\Domain\Bus\Command\CommandBus;
+use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -16,7 +17,7 @@ final class ProductsPutController
 {
     public function __construct(private readonly CommandBus $commandBus) {}
 
-    #[Route('/products/{id}', name: 'products_put', methods: ['PUT'])]
+    #[Route('/products/{id}', name: 'products_put', methods: ['PUT'], requirements: ['id' => Uuid::PATTERN])]
     public function __invoke(string $id, Request $request): Response
     {
         /** @var array<string, mixed> $payload */

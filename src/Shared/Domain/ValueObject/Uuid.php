@@ -9,7 +9,7 @@ use Stringable;
 
 abstract class Uuid implements Stringable
 {
-    private const PATTERN = '/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i';
+    public const PATTERN = '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}';
 
     final public function __construct(protected string $value)
     {
@@ -50,7 +50,7 @@ abstract class Uuid implements Stringable
 
     private function ensureIsValidUuid(string $id): void
     {
-        if (1 !== preg_match(self::PATTERN, $id)) {
+        if (1 !== preg_match('/^' . self::PATTERN . '$/', $id)) {
             throw new InvalidArgumentException(sprintf('<%s> does not allow the value <%s>.', static::class, $id));
         }
     }
