@@ -10,6 +10,9 @@ doctrine:
             ean: App\Catalog\Product\Infrastructure\Persistence\Doctrine\EanType
             product_description: App\Catalog\Product\Infrastructure\Persistence\Doctrine\ProductDescriptionType
             product_year: App\Catalog\Product\Infrastructure\Persistence\Doctrine\ProductYearType
+            type_id: App\Catalog\Type\Infrastructure\Persistence\Doctrine\TypeIdType
+            type_code: App\Catalog\Type\Infrastructure\Persistence\Doctrine\TypeCodeType
+            type_title: App\Catalog\Type\Infrastructure\Persistence\Doctrine\TypeTitleType
     orm:
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -23,6 +26,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Catalog/Product/Infrastructure/Persistence/Doctrine'
                 prefix: 'App\Catalog\Product\Domain'
                 alias: CatalogProduct
+            CatalogType:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Catalog/Type/Infrastructure/Persistence/Doctrine'
+                prefix: 'App\Catalog\Type\Domain'
+                alias: CatalogType
 
 when@test:
     doctrine:
