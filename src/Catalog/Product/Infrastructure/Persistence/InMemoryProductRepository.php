@@ -7,6 +7,7 @@ namespace App\Catalog\Product\Infrastructure\Persistence;
 use App\Catalog\Product\Domain\Product;
 use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Product\Domain\ProductRepository;
+use App\Catalog\Product\Domain\Products;
 
 final class InMemoryProductRepository implements ProductRepository
 {
@@ -21,5 +22,10 @@ final class InMemoryProductRepository implements ProductRepository
     public function search(ProductId $id): ?Product
     {
         return $this->products[$id->value()] ?? null;
+    }
+
+    public function searchAll(): Products
+    {
+        return new Products(array_values($this->products));
     }
 }
