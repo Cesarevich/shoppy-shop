@@ -49,7 +49,7 @@ final class TypeCodeType extends StringType
     /** @param array<string, mixed> $column */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        $column['length'] = 32;
+        $column['length'] = TypeCode::MAX_LENGTH;
 
         return $platform->getStringTypeDeclarationSQL($column);
     }

@@ -29,6 +29,8 @@ final class TypeCreatedDomainEvent extends DomainEvent
             $aggregateId,
             self::stringFrom($body, 'code'),
             self::stringFrom($body, 'title'),
+            $eventId,
+            $occurredOn,
         );
     }
 

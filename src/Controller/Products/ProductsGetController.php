@@ -6,7 +6,7 @@ namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Find\FindProductQuery;
 use App\Catalog\Product\Application\Find\ProductResponse;
-use App\Catalog\Product\Domain\TypeNotExist;
+use App\Catalog\Product\Domain\ProductNotExist;
 use App\Shared\Domain\Bus\Query\QueryBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,7 +24,7 @@ final class ProductsGetController
     {
         try {
             $response = $this->queryBus->ask(new FindProductQuery($id));
-        } catch (TypeNotExist) {
+        } catch (ProductNotExist) {
             return new JsonResponse(['error' => 'product_not_exist'], Response::HTTP_NOT_FOUND);
         }
 

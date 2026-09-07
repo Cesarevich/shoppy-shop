@@ -9,14 +9,16 @@ use InvalidArgumentException;
 
 final class TypeCode extends StringValueObject
 {
+    public const MAX_LENGTH = 32;
+
     public function __construct(string $value)
     {
         $value = trim($value);
         if ('' === $value) {
             throw new InvalidArgumentException('Code cannot be empty.');
         }
-        if (mb_strlen($value) > 255) { // toDo is 255 too many?
-            throw new InvalidArgumentException('Code cannot exceed 255 characters.');
+        if (mb_strlen($value) > self::MAX_LENGTH) {
+            throw new InvalidArgumentException(sprintf('Code cannot exceed %d characters.', self::MAX_LENGTH));
         }
 
         parent::__construct($value);

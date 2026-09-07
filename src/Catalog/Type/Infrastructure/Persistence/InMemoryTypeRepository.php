@@ -7,7 +7,6 @@ namespace App\Catalog\Type\Infrastructure\Persistence;
 use App\Catalog\Type\Domain\Type;
 use App\Catalog\Type\Domain\TypeId;
 use App\Catalog\Type\Domain\TypeRepository;
-use App\Catalog\Type\Domain\Types;
 
 final class InMemoryTypeRepository implements TypeRepository
 {
@@ -22,10 +21,5 @@ final class InMemoryTypeRepository implements TypeRepository
     public function search(TypeId $id): ?Type
     {
         return $this->types[$id->value()] ?? null;
-    }
-
-    public function searchAll(): Types
-    {
-        return new Types(array_values($this->types));
     }
 }

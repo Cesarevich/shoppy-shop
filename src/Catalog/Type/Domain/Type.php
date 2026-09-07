@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Catalog\Type\Domain;
 
 use App\Shared\Domain\Aggregate\AggregateRoot;
 
-class Type extends AggregateRoot
+final class Type extends AggregateRoot
 {
     public function __construct(
-        private readonly TypeId   $id,
+        private readonly TypeId $id,
         private readonly TypeCode $code,
-        private TypeTitle         $title,
+        private TypeTitle $title,
     ) {}
 
     public static function create(
@@ -22,6 +24,7 @@ class Type extends AggregateRoot
 
         return $type;
     }
+
     public function id(): TypeId
     {
         return $this->id;
