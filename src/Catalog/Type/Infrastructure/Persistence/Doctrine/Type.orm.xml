@@ -4,10 +4,10 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="App\Catalog\Type\Domain\Type" table="catalog_types">
+    <entity name="App\Catalog\Type\Domain\Type" table="catalog_product_types">
         <id name="id" type="type_id" column="id" length="36" />
 
-        <field name="code" type="type_code" column="code" length="32" />
+        <field name="code" type="type_code" column="code" length="32" unique="true" />
         <field name="title" type="type_title" column="title" length="255" />
     </entity>
 

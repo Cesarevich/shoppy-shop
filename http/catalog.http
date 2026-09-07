@@ -29,11 +29,11 @@ GET {{host}}/products
 Accept: application/json
 
 ### Create type (Course-style PUT, client-supplied UUID)
-PUT {{host}}/types/2c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e17
+PUT {{host}}/types/3c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e17
 Accept: application/json
 Content-Type: application/json
 
 {
-    "code": "book",
-    "title": "Книги"
+    "code": "boardgames",
+    "title": "Настольные игры"
 }

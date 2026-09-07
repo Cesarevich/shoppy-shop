@@ -7,7 +7,6 @@ namespace App\Catalog\Type\Infrastructure\Persistence;
 use App\Catalog\Type\Domain\Type;
 use App\Catalog\Type\Domain\TypeId;
 use App\Catalog\Type\Domain\TypeRepository;
-use App\Catalog\Type\Domain\Types;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineRepository;
 
 final class DoctrineTypeRepository extends DoctrineRepository implements TypeRepository
@@ -20,10 +19,5 @@ final class DoctrineTypeRepository extends DoctrineRepository implements TypeRep
     public function search(TypeId $id): ?Type
     {
         return $this->repository(Type::class)->find($id);
-    }
-
-    public function searchAll(): Types
-    {
-        return new Types($this->repository(Type::class)->findAll());
     }
 }
