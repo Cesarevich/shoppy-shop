@@ -10,7 +10,7 @@ final class CreateProductCommandMother
 {
     public static function create(
         ?string $id = null,
-        string $type = 'book',
+        string $typeId = '2c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e17',
         string $title = 'Clean Architecture',
         ?string $ean = '9780134494166',
         ?string $description = 'A craftsman guide',
@@ -25,7 +25,7 @@ final class CreateProductCommandMother
     ): CreateProductCommand {
         return new CreateProductCommand(
             $id ?? '1c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e1f',
-            $type,
+            $typeId,
             $title,
             $ean,
             $description,

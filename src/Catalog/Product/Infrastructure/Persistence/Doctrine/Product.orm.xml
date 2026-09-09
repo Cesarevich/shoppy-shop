@@ -7,7 +7,7 @@
     <entity name="App\Catalog\Product\Domain\Product" table="catalog_products">
         <id name="id" type="product_id" column="id" length="36" />
 
-        <field name="type" type="product_type" column="type" length="32" />
+        <field name="typeId" type="type_id" column="type_id" length="36" />
         <field name="title" type="product_title" column="title" length="255" />
         <field name="ean" type="ean" column="ean" length="13" nullable="true" />
         <field name="description" type="product_description" column="description" nullable="true" />

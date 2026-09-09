@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Create\CreateProductCommand;
+use App\Catalog\Type\Domain\TypeNotExist;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -23,23 +25,27 @@ final class ProductsPutController
         /** @var array<string, mixed> $payload */
         $payload = $request->toArray();
 
-        $this->commandBus->dispatch(
-            new CreateProductCommand(
-                $id,
-                self::stringFrom($payload, 'type'),
-                self::stringFrom($payload, 'title'),
-                self::nullableStringFrom($payload, 'ean'),
-                self::nullableStringFrom($payload, 'description'),
-                self::nullableIntFrom($payload, 'year'),
-                self::nullableIntFrom($payload, 'weight'),
-                self::nullableIntFrom($payload, 'length'),
-                self::nullableIntFrom($payload, 'width'),
-                self::nullableIntFrom($payload, 'height'),
-                self::stringFrom($payload, 'listingStatus', 'draft'),
-                self::intFrom($payload, 'listPriceAmount'),
-                self::stringFrom($payload, 'listPriceCurrency', 'BYN'),
-            ),
-        );
+        try {
+            $this->commandBus->dispatch(
+                new CreateProductCommand(
+                    $id,
+                    self::stringFrom($payload, 'typeId'),
+                    self::stringFrom($payload, 'title'),
+                    self::nullableStringFrom($payload, 'ean'),
+                    self::nullableStringFrom($payload, 'description'),
+                    self::nullableIntFrom($payload, 'year'),
+                    self::nullableIntFrom($payload, 'weight'),
+                    self::nullableIntFrom($payload, 'length'),
+                    self::nullableIntFrom($payload, 'width'),
+                    self::nullableIntFrom($payload, 'height'),
+                    self::stringFrom($payload, 'listingStatus', 'draft'),
+                    self::intFrom($payload, 'listPriceAmount'),
+                    self::stringFrom($payload, 'listPriceCurrency', 'BYN'),
+                ),
+            );
+        } catch (TypeNotExist) {
+            return new JsonResponse(['error' => 'type_not_exist'], Response::HTTP_BAD_REQUEST);
+        }
 
         return new Response('', Response::HTTP_CREATED);
     }

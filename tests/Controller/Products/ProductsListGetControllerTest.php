@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Controller\Products;
 
 use App\Catalog\Product\Domain\ProductId;
+use App\Catalog\Type\Domain\TypeId;
 use App\Tests\Catalog\Product\Application\Create\CreateProductCommandMother;
 use PHPUnit\Framework\Attributes\Test;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class ProductsListGetControllerTest extends WebTestCase
@@ -16,12 +18,15 @@ final class ProductsListGetControllerTest extends WebTestCase
     {
         $firstId = ProductId::random()->value();
         $secondId = ProductId::random()->value();
+        $typeId = TypeId::random()->value();
         $client = self::createClient();
 
-        $client->jsonRequest('PUT', '/products/' . $firstId, self::payload($firstId, 'First book'));
+        self::createType($client, $typeId);
+
+        $client->jsonRequest('PUT', '/products/' . $firstId, self::payload($firstId, $typeId, 'First book'));
         self::assertResponseStatusCodeSame(201);
 
-        $client->jsonRequest('PUT', '/products/' . $secondId, self::payload($secondId, 'Second book'));
+        $client->jsonRequest('PUT', '/products/' . $secondId, self::payload($secondId, $typeId, 'Second book'));
         self::assertResponseStatusCodeSame(201);
 
         $client->jsonRequest('GET', '/products');
@@ -37,12 +42,12 @@ final class ProductsListGetControllerTest extends WebTestCase
     }
 
     /** @return array<string, mixed> */
-    private static function payload(string $id, string $title): array
+    private static function payload(string $id, string $typeId, string $title): array
     {
-        $command = CreateProductCommandMother::create(id: $id, title: $title);
+        $command = CreateProductCommandMother::create(id: $id, typeId: $typeId, title: $title);
 
         return [
-            'type' => $command->type(),
+            'typeId' => $command->typeId(),
             'title' => $command->title(),
             'ean' => $command->ean(),
             'description' => $command->description(),
@@ -55,5 +60,14 @@ final class ProductsListGetControllerTest extends WebTestCase
             'listPriceAmount' => $command->listPriceAmount(),
             'listPriceCurrency' => $command->listPriceCurrency(),
         ];
+    }
+
+    private static function createType(KernelBrowser $client, string $typeId): void
+    {
+        $client->jsonRequest('PUT', '/types/' . $typeId, [
+            'code' => 'book-' . substr($typeId, 0, 8),
+            'title' => 'Книги',
+        ]);
+        self::assertResponseStatusCodeSame(201);
     }
 }

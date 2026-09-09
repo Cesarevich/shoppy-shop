@@ -10,7 +10,7 @@ final readonly class CreateProductCommand implements Command
 {
     public function __construct(
         private string $id,
-        private string $type,
+        private string $typeId,
         private string $title,
         private ?string $ean,
         private ?string $description,
@@ -29,9 +29,9 @@ final readonly class CreateProductCommand implements Command
         return $this->id;
     }
 
-    public function type(): string
+    public function typeId(): string
     {
-        return $this->type;
+        return $this->typeId;
     }
 
     public function title(): string

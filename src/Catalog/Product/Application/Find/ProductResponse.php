@@ -11,7 +11,7 @@ final readonly class ProductResponse implements Response
 {
     public function __construct(
         public string $id,
-        public string $type,
+        public string $typeId,
         public string $title,
         public ?string $ean,
         public ?string $description,
@@ -31,7 +31,7 @@ final readonly class ProductResponse implements Response
 
         return new self(
             $product->id()->value(),
-            $product->type()->value(),
+            $product->typeId()->value(),
             $product->title()->value(),
             $product->ean()?->value(),
             $product->description()?->value(),
@@ -51,7 +51,7 @@ final readonly class ProductResponse implements Response
     {
         return [
             'id' => $this->id,
-            'type' => $this->type,
+            'typeId' => $this->typeId,
             'title' => $this->title,
             'ean' => $this->ean,
             'description' => $this->description,
