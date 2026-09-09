@@ -13,8 +13,8 @@ use App\Catalog\Product\Domain\Product;
 use App\Catalog\Product\Domain\ProductDescription;
 use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Product\Domain\ProductTitle;
-use App\Catalog\Product\Domain\ProductType;
 use App\Catalog\Product\Domain\Year;
+use App\Catalog\Type\Domain\TypeId;
 
 final class ProductMother
 {
@@ -26,7 +26,7 @@ final class ProductMother
 
         return Product::create(
             new ProductId($command->id()),
-            new ProductType($command->type()),
+            new TypeId($command->typeId()),
             new ProductTitle($command->title()),
             null !== $ean ? new Ean($ean) : null,
             null !== $description ? new ProductDescription($description) : null,

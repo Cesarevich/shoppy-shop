@@ -1,0 +1,34 @@
+@host = http://localhost:8083
+@bookTypeId = 3c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e17
+@productId = 1c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e17
+
+### Create product
+# @name createProduct
+PUT {{host}}/products/{{productId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "typeId": "{{bookTypeId}}",
+  "title": "Clean Architecture",
+  "ean": "9780134494166",
+  "description": "A craftsman guide",
+  "year": 2017,
+  "weight": 500,
+  "length": 240,
+  "width": 160,
+  "height": 30,
+  "listingStatus": "draft",
+  "listPriceAmount": 4500,
+  "listPriceCurrency": "BYN"
+}
+
+### Get product
+# @name getProduct
+GET {{host}}/products/{{productId}}
+Accept: application/json
+
+### List products
+# @name listProducts
+GET {{host}}/products
+Accept: application/json

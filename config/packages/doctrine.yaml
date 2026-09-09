@@ -5,7 +5,6 @@ doctrine:
         profiling_collect_backtrace: '%kernel.debug%'
         types:
             product_id: App\Catalog\Product\Infrastructure\Persistence\Doctrine\ProductIdType
-            product_type: App\Catalog\Product\Infrastructure\Persistence\Doctrine\ProductTypeType
             product_title: App\Catalog\Product\Infrastructure\Persistence\Doctrine\ProductTitleType
             ean: App\Catalog\Product\Infrastructure\Persistence\Doctrine\EanType
             product_description: App\Catalog\Product\Infrastructure\Persistence\Doctrine\ProductDescriptionType

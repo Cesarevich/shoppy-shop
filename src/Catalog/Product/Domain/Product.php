@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Catalog\Product\Domain;
 
+use App\Catalog\Type\Domain\TypeId;
 use App\Shared\Domain\Aggregate\AggregateRoot;
 
 final class Product extends AggregateRoot
 {
     public function __construct(
         private readonly ProductId $id,
-        private readonly ProductType $type,
+        private readonly TypeId $typeId,
         private ProductTitle $title,
         private ?Ean $ean,
         private ?ProductDescription $description,
@@ -22,7 +23,7 @@ final class Product extends AggregateRoot
 
     public static function create(
         ProductId $id,
-        ProductType $type,
+        TypeId $typeId,
         ProductTitle $title,
         ?Ean $ean,
         ?ProductDescription $description,
@@ -31,7 +32,7 @@ final class Product extends AggregateRoot
         ListingStatus $listingStatus,
         Money $listPrice,
     ): self {
-        $product = new self($id, $type, $title, $ean, $description, $year, $dimensions, $listingStatus, $listPrice);
+        $product = new self($id, $typeId, $title, $ean, $description, $year, $dimensions, $listingStatus, $listPrice);
         $product->record(ProductCreatedDomainEvent::fromProduct($product));
 
         return $product;
@@ -42,9 +43,9 @@ final class Product extends AggregateRoot
         return $this->id;
     }
 
-    public function type(): ProductType
+    public function typeId(): TypeId
     {
-        return $this->type;
+        return $this->typeId;
     }
 
     public function title(): ProductTitle

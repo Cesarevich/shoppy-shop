@@ -10,7 +10,7 @@ final class ProductCreatedDomainEvent extends DomainEvent
 {
     public function __construct(
         string $id,
-        private readonly string $type,
+        private readonly string $typeId,
         private readonly string $title,
         private readonly ?string $ean,
         private readonly ?string $description,
@@ -37,7 +37,7 @@ final class ProductCreatedDomainEvent extends DomainEvent
     {
         return new self(
             $aggregateId,
-            self::stringFrom($body, 'type'),
+            self::stringFrom($body, 'typeId'),
             self::stringFrom($body, 'title'),
             self::nullableStringFrom($body, 'ean'),
             self::nullableStringFrom($body, 'description'),
@@ -57,7 +57,7 @@ final class ProductCreatedDomainEvent extends DomainEvent
     public function toPrimitives(): array
     {
         return [
-            'type' => $this->type,
+            'typeId' => $this->typeId,
             'title' => $this->title,
             'ean' => $this->ean,
             'description' => $this->description,
@@ -78,7 +78,7 @@ final class ProductCreatedDomainEvent extends DomainEvent
 
         return new self(
             $product->id()->value(),
-            $product->type()->value(),
+            $product->typeId()->value(),
             $product->title()->value(),
             $product->ean()?->value(),
             $product->description()?->value(),

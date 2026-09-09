@@ -1,0 +1,13 @@
+@host = http://localhost:8083
+@bookTypeId = 3c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e17
+
+### Create type
+# @name createBookType
+PUT {{host}}/types/{{bookTypeId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "code": "book",
+  "title": "Книги"
+}
