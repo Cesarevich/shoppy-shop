@@ -38,6 +38,23 @@ final class Product extends AggregateRoot
         return $product;
     }
 
+    public function change(
+        ProductTitle $title,
+        ?Ean $ean,
+        ?ProductDescription $description,
+        ?Year $year,
+        ?Dimensions $dimensions,
+        Money $listPrice,
+    ): void {
+        $this->title = $title;
+        $this->ean = $ean;
+        $this->description = $description;
+        $this->year = $year;
+        $this->dimensions = $dimensions;
+        $this->listPrice = $listPrice;
+        $this->record(ProductChangedDomainEvent::fromProduct($this));
+    }
+
     public function id(): ProductId
     {
         return $this->id;
