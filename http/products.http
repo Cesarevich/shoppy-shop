@@ -23,6 +23,25 @@ Content-Type: application/json
   "listPriceCurrency": "BYN"
 }
 
+### Change product
+# @name changeProduct
+PATCH {{host}}/products/{{productId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "title": "Clean Architecture",
+  "ean": "9780134494166",
+  "description": "A craftsman guide",
+  "year": 2011,
+  "weight": 500,
+  "length": 240,
+  "width": 160,
+  "height": 30,
+  "listPriceAmount": 4500,
+  "listPriceCurrency": "BYN"
+}
+
 ### Get product
 # @name getProduct
 GET {{host}}/products/{{productId}}

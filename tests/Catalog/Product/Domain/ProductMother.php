@@ -41,4 +41,28 @@ final class ProductMother
             new Money($command->listPriceAmount(), $command->listPriceCurrency()),
         );
     }
+
+    public static function existing(CreateProductCommand $command): Product
+    {
+        $description = $command->description();
+        $ean = $command->ean();
+        $year = $command->year();
+
+        return new Product(
+            new ProductId($command->id()),
+            new TypeId($command->typeId()),
+            new ProductTitle($command->title()),
+            null !== $ean ? new Ean($ean) : null,
+            null !== $description ? new ProductDescription($description) : null,
+            null !== $year ? new Year($year) : null,
+            Dimensions::fromPrimitives(
+                $command->weight(),
+                $command->length(),
+                $command->width(),
+                $command->height(),
+            ),
+            ListingStatus::from($command->listingStatus()),
+            new Money($command->listPriceAmount(), $command->listPriceCurrency()),
+        );
+    }
 }
