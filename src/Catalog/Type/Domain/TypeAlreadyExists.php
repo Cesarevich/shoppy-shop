@@ -6,7 +6,7 @@ namespace App\Catalog\Type\Domain;
 
 use App\Shared\Domain\DomainError;
 
-final class TypeNotExist extends DomainError
+final class TypeAlreadyExists extends DomainError
 {
     public function __construct(private readonly TypeId $id)
     {
@@ -15,11 +15,11 @@ final class TypeNotExist extends DomainError
 
     public function errorCode(): string
     {
-        return 'type_not_exist';
+        return 'type_already_exists';
     }
 
     protected function errorMessage(): string
     {
-        return sprintf('The type <%s> does not exist', $this->id->value());
+        return sprintf('The type <%s> already exists', $this->id->value());
     }
 }

@@ -6,7 +6,7 @@ namespace App\Catalog\Product\Domain;
 
 use App\Shared\Domain\DomainError;
 
-final class ProductAlreadyOnSale extends DomainError
+final class ProductAlreadyExists extends DomainError
 {
     public function __construct(private readonly ProductId $id)
     {
@@ -15,11 +15,11 @@ final class ProductAlreadyOnSale extends DomainError
 
     public function errorCode(): string
     {
-        return 'product_already_on_sale';
+        return 'product_already_exists';
     }
 
     protected function errorMessage(): string
     {
-        return sprintf('The product <%s> is already on sale', $this->id->value());
+        return sprintf('The product <%s> already exists', $this->id->value());
     }
 }

@@ -29,10 +29,9 @@ final class Product extends AggregateRoot
         ?ProductDescription $description,
         ?Year $year,
         ?Dimensions $dimensions,
-        ListingStatus $listingStatus,
         Money $listPrice,
     ): self {
-        $product = new self($id, $typeId, $title, $ean, $description, $year, $dimensions, $listingStatus, $listPrice);
+        $product = new self($id, $typeId, $title, $ean, $description, $year, $dimensions, ListingStatus::Draft, $listPrice);
         $product->record(ProductCreatedDomainEvent::fromProduct($product));
 
         return $product;
@@ -53,6 +52,30 @@ final class Product extends AggregateRoot
         $this->dimensions = $dimensions;
         $this->listPrice = $listPrice;
         $this->record(ProductChangedDomainEvent::fromProduct($this));
+    }
+
+    public function listOnSale(): void
+    {
+        // todo: listOnSale только из draft → ProductListed (новинка).
+        // withdrawn → onSale — отдельная команда Relist + ProductRelisted (сезон / вернули).
+        // Не копить first_date_available / флаги на Product: «впервые» = было событие Listed, не Relisted.
+        if ($this->listingStatus === ListingStatus::OnSale) {
+            throw new ProductAlreadyOnSale($this->id);
+        }
+        $this->listingStatus = ListingStatus::OnSale;
+        $this->record(ProductListedDomainEvent::fromProduct($this));
+    }
+
+    public function withdraw(): void
+    {
+        if ($this->listingStatus === ListingStatus::Withdrawn) {
+            throw new ProductAlreadyWithdrawn($this->id);
+        }
+        if ($this->listingStatus !== ListingStatus::OnSale) {
+            throw new ProductNotOnSale($this->id);
+        }
+        $this->listingStatus = ListingStatus::Withdrawn;
+        $this->record(ProductWithdrawnDomainEvent::fromProduct($this));
     }
 
     public function id(): ProductId

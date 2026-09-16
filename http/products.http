@@ -18,7 +18,6 @@ Content-Type: application/json
   "length": 240,
   "width": 160,
   "height": 30,
-  "listingStatus": "draft",
   "listPriceAmount": 4500,
   "listPriceCurrency": "BYN"
 }
@@ -50,4 +49,14 @@ Accept: application/json
 ### List products
 # @name listProducts
 GET {{host}}/products
+Accept: application/json
+
+### Put product on sale
+# @name putOnSale
+POST {{host}}/products/{{productId}}/list
+Accept: application/json
+
+### Withdraw product from sale
+# @name withdrawFromSale
+POST {{host}}/products/{{productId}}/withdraw
 Accept: application/json

@@ -37,7 +37,6 @@ final class ProductMother
                 $command->width(),
                 $command->height(),
             ),
-            ListingStatus::from($command->listingStatus()),
             new Money($command->listPriceAmount(), $command->listPriceCurrency()),
         );
     }
@@ -61,7 +60,7 @@ final class ProductMother
                 $command->width(),
                 $command->height(),
             ),
-            ListingStatus::from($command->listingStatus()),
+            ListingStatus::Draft,
             new Money($command->listPriceAmount(), $command->listPriceCurrency()),
         );
     }
