@@ -56,7 +56,6 @@ final class ProductsListGetControllerTest extends WebTestCase
             'length' => $command->length(),
             'width' => $command->width(),
             'height' => $command->height(),
-            'listingStatus' => $command->listingStatus(),
             'listPriceAmount' => $command->listPriceAmount(),
             'listPriceCurrency' => $command->listPriceCurrency(),
         ];

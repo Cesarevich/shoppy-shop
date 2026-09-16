@@ -6,7 +6,6 @@ namespace App\Catalog\Product\Application\Create;
 
 use App\Catalog\Product\Domain\Dimensions;
 use App\Catalog\Product\Domain\Ean;
-use App\Catalog\Product\Domain\ListingStatus;
 use App\Catalog\Product\Domain\Money;
 use App\Catalog\Product\Domain\ProductDescription;
 use App\Catalog\Product\Domain\ProductId;
@@ -14,8 +13,6 @@ use App\Catalog\Product\Domain\ProductTitle;
 use App\Catalog\Product\Domain\Year;
 use App\Catalog\Type\Domain\TypeId;
 use App\Shared\Domain\Bus\Command\CommandHandler;
-use InvalidArgumentException;
-use ValueError;
 
 final readonly class CreateProductCommandHandler implements CommandHandler
 {
@@ -23,14 +20,6 @@ final readonly class CreateProductCommandHandler implements CommandHandler
 
     public function __invoke(CreateProductCommand $command): void
     {
-        try {
-            $listingStatus = ListingStatus::from($command->listingStatus());
-        } catch (ValueError) {
-            throw new InvalidArgumentException(
-                sprintf('Listing status <%s> is not allowed.', $command->listingStatus()),
-            );
-        }
-
         $description = $command->description();
         $ean = $command->ean();
         $year = $command->year();
@@ -48,7 +37,6 @@ final readonly class CreateProductCommandHandler implements CommandHandler
                 $command->width(),
                 $command->height(),
             ),
-            $listingStatus,
             new Money($command->listPriceAmount(), $command->listPriceCurrency()),
         );
     }

@@ -6,7 +6,7 @@ namespace App\Catalog\Product\Application\Withdraw;
 
 use App\Shared\Domain\Bus\Command\Command;
 
-final readonly class ProductWithdrawCommand implements Command
+final readonly class WithdrawProductFromSaleCommand implements Command
 {
     public function __construct(
         private string $id,

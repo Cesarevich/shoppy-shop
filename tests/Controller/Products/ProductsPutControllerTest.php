@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Products;
 
+use App\Catalog\Product\Domain\ListingStatus;
 use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Type\Domain\TypeId;
 use App\Tests\Catalog\Product\Application\Create\CreateProductCommandMother;
@@ -33,7 +34,6 @@ final class ProductsPutControllerTest extends WebTestCase
             'length' => $command->length(),
             'width' => $command->width(),
             'height' => $command->height(),
-            'listingStatus' => $command->listingStatus(),
             'listPriceAmount' => $command->listPriceAmount(),
             'listPriceCurrency' => $command->listPriceCurrency(),
         ];
@@ -44,7 +44,21 @@ final class ProductsPutControllerTest extends WebTestCase
         $client->jsonRequest('GET', '/products/' . $id);
         self::assertResponseStatusCodeSame(200);
         self::assertJsonStringEqualsJsonString(
-            json_encode(['id' => $id, ...$payload], JSON_THROW_ON_ERROR),
+            json_encode([
+                'id' => $id,
+                'typeId' => $command->typeId(),
+                'title' => $command->title(),
+                'ean' => $command->ean(),
+                'description' => $command->description(),
+                'year' => $command->year(),
+                'weight' => $command->weight(),
+                'length' => $command->length(),
+                'width' => $command->width(),
+                'height' => $command->height(),
+                'listingStatus' => ListingStatus::Draft,
+                'listPriceAmount' => $command->listPriceAmount(),
+                'listPriceCurrency' => $command->listPriceCurrency(),
+            ], JSON_THROW_ON_ERROR),
             (string) $client->getResponse()->getContent(),
         );
     }
@@ -66,7 +80,6 @@ final class ProductsPutControllerTest extends WebTestCase
             'length' => $command->length(),
             'width' => $command->width(),
             'height' => $command->height(),
-            'listingStatus' => $command->listingStatus(),
             'listPriceAmount' => $command->listPriceAmount(),
             'listPriceCurrency' => $command->listPriceCurrency(),
         ]);

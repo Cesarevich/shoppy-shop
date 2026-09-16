@@ -10,14 +10,14 @@ use App\Catalog\Product\Domain\ProductRepository;
 use App\Shared\Domain\Bus\Command\CommandHandler;
 use App\Shared\Domain\Bus\Event\EventBus;
 
-final readonly class ProductWithdrawCommandHandler implements CommandHandler
+final readonly class WithdrawProductFromSaleCommandHandler implements CommandHandler
 {
     public function __construct(
         private ProductRepository $repository,
         private EventBus $bus,
     ) {}
 
-    public function __invoke(ProductWithdrawCommand $command): void
+    public function __invoke(WithdrawProductFromSaleCommand $command): void
     {
         $productId = new ProductId($command->id());
         $product = $this->repository->search($productId);

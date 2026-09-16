@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Products;
 
+use App\Catalog\Product\Domain\ListingStatus;
 use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Type\Domain\TypeId;
 use App\Tests\Catalog\Product\Application\Create\CreateProductCommandMother;
@@ -33,7 +34,6 @@ final class ProductsPatchControllerTest extends WebTestCase
             'length' => $command->length(),
             'width' => $command->width(),
             'height' => $command->height(),
-            'listingStatus' => $command->listingStatus(),
             'listPriceAmount' => $command->listPriceAmount(),
             'listPriceCurrency' => $command->listPriceCurrency(),
         ];
@@ -71,7 +71,7 @@ final class ProductsPatchControllerTest extends WebTestCase
                 'length' => $command->length(),
                 'width' => $command->width(),
                 'height' => $command->height(),
-                'listingStatus' => $command->listingStatus(),
+                'listingStatus' => ListingStatus::Draft,
                 'listPriceAmount' => $command->listPriceAmount(),
                 'listPriceCurrency' => $command->listPriceCurrency(),
             ], JSON_THROW_ON_ERROR),

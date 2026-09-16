@@ -2,54 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Product\Application\Create;
+namespace App\Catalog\Product\Application\ListOnSale;
 
-use App\Catalog\Product\Domain\Dimensions;
-use App\Catalog\Product\Domain\Ean;
-use App\Catalog\Product\Domain\ListingStatus;
-use App\Catalog\Product\Domain\Money;
-use App\Catalog\Product\Domain\ProductDescription;
 use App\Catalog\Product\Domain\ProductId;
-use App\Catalog\Product\Domain\ProductTitle;
-use App\Catalog\Product\Domain\Year;
-use App\Catalog\Type\Domain\TypeId;
+use App\Catalog\Product\Domain\ProductNotExist;
+use App\Catalog\Product\Domain\ProductRepository;
 use App\Shared\Domain\Bus\Command\CommandHandler;
-use InvalidArgumentException;
-use ValueError;
+use App\Shared\Domain\Bus\Event\EventBus;
 
-final readonly class CreateProductCommandHandler implements CommandHandler
+final readonly class ListProductOnSaleCommandHandler implements CommandHandler
 {
-    public function __construct(private ProductCreator $creator) {}
+    public function __construct(
+        private ProductRepository $repository,
+        private EventBus $bus,
+    ) {}
 
-    public function __invoke(CreateProductCommand $command): void
+    public function __invoke(ListProductOnSaleCommand $command): void
     {
-        try {
-            $listingStatus = ListingStatus::from($command->listingStatus());
-        } catch (ValueError) {
-            throw new InvalidArgumentException(
-                sprintf('Listing status <%s> is not allowed.', $command->listingStatus()),
-            );
+        $productId = new ProductId($command->id());
+        $product = $this->repository->search($productId);
+        if (null === $product) {
+            throw new ProductNotExist($productId);
         }
 
-        $description = $command->description();
-        $ean = $command->ean();
-        $year = $command->year();
-
-        $this->creator->__invoke(
-            new ProductId($command->id()),
-            new TypeId($command->typeId()),
-            new ProductTitle($command->title()),
-            null !== $ean ? new Ean($ean) : null,
-            null !== $description ? new ProductDescription($description) : null,
-            null !== $year ? new Year($year) : null,
-            Dimensions::fromPrimitives(
-                $command->weight(),
-                $command->length(),
-                $command->width(),
-                $command->height(),
-            ),
-            $listingStatus,
-            new Money($command->listPriceAmount(), $command->listPriceCurrency()),
-        );
+        $product->listOnSale();
+        $this->repository->save($product);
+        $this->bus->publish(...$product->pullDomainEvents());
     }
 }

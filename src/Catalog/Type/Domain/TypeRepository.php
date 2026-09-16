@@ -9,4 +9,6 @@ interface TypeRepository
     public function save(Type $type): void;
 
     public function search(TypeId $id): ?Type;
+
+    public function searchByCode(TypeCode $code): ?Type;
 }

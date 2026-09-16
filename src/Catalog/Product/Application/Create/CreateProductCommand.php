@@ -19,7 +19,6 @@ final readonly class CreateProductCommand implements Command
         private ?int $length,
         private ?int $width,
         private ?int $height,
-        private string $listingStatus,
         private int $listPriceAmount,
         private string $listPriceCurrency,
     ) {}
@@ -72,11 +71,6 @@ final readonly class CreateProductCommand implements Command
     public function height(): ?int
     {
         return $this->height;
-    }
-
-    public function listingStatus(): string
-    {
-        return $this->listingStatus;
     }
 
     public function listPriceAmount(): int

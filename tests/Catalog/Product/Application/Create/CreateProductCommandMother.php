@@ -19,7 +19,6 @@ final class CreateProductCommandMother
         ?int $length = 240,
         ?int $width = 160,
         ?int $height = 30,
-        string $listingStatus = 'draft',
         int $listPriceAmount = 4500,
         string $listPriceCurrency = 'BYN',
     ): CreateProductCommand {
@@ -34,7 +33,6 @@ final class CreateProductCommandMother
             $length,
             $width,
             $height,
-            $listingStatus,
             $listPriceAmount,
             $listPriceCurrency,
         );

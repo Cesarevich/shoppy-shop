@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Create\CreateProductCommand;
+use App\Catalog\Product\Domain\ProductAlreadyExists;
 use App\Catalog\Type\Domain\TypeNotExist;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
@@ -38,13 +39,14 @@ final class ProductsPutController
                     self::nullableIntFrom($payload, 'length'),
                     self::nullableIntFrom($payload, 'width'),
                     self::nullableIntFrom($payload, 'height'),
-                    self::stringFrom($payload, 'listingStatus', 'draft'),
                     self::intFrom($payload, 'listPriceAmount'),
                     self::stringFrom($payload, 'listPriceCurrency', 'BYN'),
                 ),
             );
         } catch (TypeNotExist) {
             return new JsonResponse(['error' => 'type_not_exist'], Response::HTTP_BAD_REQUEST);
+        } catch (ProductAlreadyExists) {
+            return new JsonResponse(['error' => 'product_already_exists'], Response::HTTP_CONFLICT);
         }
 
         return new Response('', Response::HTTP_CREATED);

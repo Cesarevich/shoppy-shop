@@ -20,6 +20,6 @@ final class ProductAlreadyWithdrawn extends DomainError
 
     protected function errorMessage(): string
     {
-        return sprintf('The product <%s> already withdrawn', $this->id->value());
+        return sprintf('The product <%s> is already withdrawn', $this->id->value());
     }
 }
