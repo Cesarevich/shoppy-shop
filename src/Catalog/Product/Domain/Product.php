@@ -56,14 +56,29 @@ final class Product extends AggregateRoot
 
     public function listOnSale(): void
     {
-        // todo: listOnSale только из draft → ProductListed (новинка).
-        // withdrawn → onSale — отдельная команда Relist + ProductRelisted (сезон / вернули).
-        // Не копить first_date_available / флаги на Product: «впервые» = было событие Listed, не Relisted.
         if ($this->listingStatus === ListingStatus::OnSale) {
             throw new ProductAlreadyOnSale($this->id);
         }
+
+        if ($this->listingStatus !== ListingStatus::Draft) {
+            throw new ProductNotInDraft($this->id);
+        }
+
         $this->listingStatus = ListingStatus::OnSale;
         $this->record(ProductListedDomainEvent::fromProduct($this));
+    }
+
+    public function relistOnSale(): void
+    {
+        if ($this->listingStatus === ListingStatus::OnSale) {
+            throw new ProductAlreadyOnSale($this->id);
+        }
+        if ($this->listingStatus !== ListingStatus::Withdrawn) {
+            throw new ProductNotWithdrawn($this->id);
+        }
+
+        $this->listingStatus = ListingStatus::OnSale;
+        $this->record(ProductRelistedDomainEvent::fromProduct($this));
     }
 
     public function withdraw(): void

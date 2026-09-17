@@ -60,3 +60,8 @@ Accept: application/json
 # @name withdrawFromSale
 POST {{host}}/products/{{productId}}/withdraw
 Accept: application/json
+
+### Relist product on sale
+# @name relistOnSale
+POST {{host}}/products/{{productId}}/relist
+Accept: application/json
