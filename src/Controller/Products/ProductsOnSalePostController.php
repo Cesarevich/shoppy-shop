@@ -7,6 +7,7 @@ namespace App\Controller\Products;
 use App\Catalog\Product\Application\ListOnSale\ListProductOnSaleCommand;
 use App\Catalog\Product\Domain\ProductAlreadyOnSale;
 use App\Catalog\Product\Domain\ProductNotExist;
+use App\Catalog\Product\Domain\ProductNotInDraft;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,6 +33,8 @@ final class ProductsOnSalePostController
             return new JsonResponse(['error' => 'product_not_exist'], Response::HTTP_NOT_FOUND);
         } catch (ProductAlreadyOnSale) {
             return new JsonResponse(['error' => 'product_already_on_sale'], Response::HTTP_CONFLICT);
+        } catch (ProductNotInDraft) {
+            return new JsonResponse(['error' => 'product_not_in_draft'], Response::HTTP_CONFLICT);
         }
 
         return new Response('', Response::HTTP_NO_CONTENT);
