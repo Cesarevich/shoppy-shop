@@ -23,7 +23,6 @@ final readonly class ChangeProductCommandHandler implements CommandHandler
         $ean = $command->ean();
         $year = $command->year();
 
-        // toDo вроде как магию придумали не для явного вызова
         $this->changer->__invoke(
             new ProductId($command->id()),
             new ProductTitle($command->title()),

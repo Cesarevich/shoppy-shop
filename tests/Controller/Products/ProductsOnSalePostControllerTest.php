@@ -7,6 +7,7 @@ namespace App\Tests\Controller\Products;
 use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Type\Domain\TypeId;
 use App\Tests\Catalog\Product\Application\Create\CreateProductCommandMother;
+use App\Tests\Catalog\Product\Domain\ProductMother;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
