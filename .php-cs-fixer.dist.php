@@ -26,7 +26,6 @@ return (new Config())
         '@PER-CS2x0' => true,
         '@DoctrineAnnotation' => true,
         'no_unused_imports' => true,
-        // Tests follow PSR-12 like the rest of the code: testCamelCase, no #[Test] attribute.
         'php_unit_method_casing' => ['case' => 'camel_case'],
     ])
     ->setFinder($finder);

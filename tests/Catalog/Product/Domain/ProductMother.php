@@ -48,7 +48,6 @@ final class ProductMother
         $ean = $command->ean();
         $year = $command->year();
 
-        // Built directly: a null in the command must stay null, not fall back to create() defaults.
         return new Product(
             new ProductId($command->id()),
             new TypeId($command->typeId()),
