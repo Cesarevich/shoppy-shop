@@ -14,19 +14,16 @@ use App\Catalog\Type\Domain\TypeNotExist;
 use App\Catalog\Type\Domain\TypeRepository;
 use App\Shared\Domain\Bus\Event\EventBus;
 use App\Tests\Catalog\Product\Domain\ProductMother;
-use App\Tests\Catalog\Type\Application\Create\CreateTypeCommandMother;
 use App\Tests\Catalog\Type\Domain\TypeMother;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class CreateProductCommandHandlerTest extends TestCase
 {
-    #[Test]
-    public function it_should_create_a_valid_product(): void
+    public function testCreatesValidProduct(): void
     {
         $command = CreateProductCommandMother::create();
         $product = ProductMother::fromCommand($command);
-        $type = TypeMother::fromCommand(CreateTypeCommandMother::create(id: $command->typeId()));
+        $type = TypeMother::create(id: new TypeId($command->typeId()));
 
         $types = $this->createMock(TypeRepository::class);
         $types->expects($this->once())
@@ -58,8 +55,7 @@ final class CreateProductCommandHandlerTest extends TestCase
         $handler->__invoke($command);
     }
 
-    #[Test]
-    public function it_should_fail_when_type_does_not_exist(): void
+    public function testFailsWhenTypeDoesNotExist(): void
     {
         $command = CreateProductCommandMother::create();
 
