@@ -13,7 +13,7 @@ final class ProductsPutControllerTest extends ProductsWebTestCase
 {
     public function testCreatesAndFetchesProduct(): void
     {
-        $type = $this->givenType();
+        $type = $this->storeType();
         $id = ProductId::random()->value();
         $command = CreateProductCommandMother::create(id: $id, typeId: $type->id()->value());
 

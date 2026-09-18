@@ -8,8 +8,8 @@ final class ProductsListGetControllerTest extends ProductsWebTestCase
 {
     public function testReturnsPersistedProducts(): void
     {
-        $first = $this->givenProduct();
-        $second = $this->givenProduct();
+        $first = $this->storeProduct();
+        $second = $this->storeProduct();
 
         $this->client->jsonRequest('GET', '/products');
 

@@ -13,7 +13,7 @@ final class ProductsPatchControllerTest extends ProductsWebTestCase
 {
     public function testChangesAndFetchesProduct(): void
     {
-        $product = $this->givenProduct();
+        $product = $this->storeProduct();
         $id = $product->id()->value();
         $command = ChangeProductCommandMother::create(id: $id, title: 'Clean Architecture revised', year: 2011);
 

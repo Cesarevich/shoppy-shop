@@ -28,8 +28,7 @@ abstract class ProductsWebTestCase extends WebTestCase
         $this->client = self::createClient();
     }
 
-    /** Persists a Type directly, bypassing HTTP: the test is not about creating types. */
-    protected function givenType(): Type
+    protected function storeType(): Type
     {
         $type = TypeMother::create();
 
@@ -38,11 +37,10 @@ abstract class ProductsWebTestCase extends WebTestCase
         return $type;
     }
 
-    /** Persists a Product (with its Type) already in the given listing state. */
-    protected function givenProduct(ListingStatus $listingStatus = ListingStatus::Draft): Product
+    protected function storeProduct(ListingStatus $listingStatus = ListingStatus::Draft): Product
     {
         $product = ProductMother::create(
-            typeId: $this->givenType()->id(),
+            typeId: $this->storeType()->id(),
             listingStatus: $listingStatus,
         );
 
@@ -51,8 +49,7 @@ abstract class ProductsWebTestCase extends WebTestCase
         return $product;
     }
 
-    /** Reads the persisted state after the request, bypassing the identity map. */
-    protected function listingStatusOf(ProductId $id): ListingStatus
+    protected function assertStoredProductHasListingStatus(ListingStatus $expected, ProductId $id): void
     {
         $this->entityManager()->clear();
 
@@ -63,7 +60,11 @@ abstract class ProductsWebTestCase extends WebTestCase
             throw new LogicException(sprintf('Product <%s> was not found after request.', $id->value()));
         }
 
-        return $product->listingStatus();
+        self::assertSame(
+            $expected,
+            $product->listingStatus(),
+            sprintf('Product <%s> stored with unexpected listing status.', $id->value()),
+        );
     }
 
     /** @return array<string, mixed> */

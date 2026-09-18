@@ -11,17 +11,17 @@ final class ProductsOnSalePostControllerTest extends ProductsWebTestCase
 {
     public function testListsDraftProduct(): void
     {
-        $product = $this->givenProduct(ListingStatus::Draft);
+        $product = $this->storeProduct(ListingStatus::Draft);
 
         $this->client->jsonRequest('POST', '/products/' . $product->id()->value() . '/list');
 
         self::assertResponseStatusCodeSame(204);
-        self::assertSame(ListingStatus::OnSale, $this->listingStatusOf($product->id()));
+        $this->assertStoredProductHasListingStatus(ListingStatus::OnSale, $product->id());
     }
 
     public function testRejectsWhenAlreadyOnSale(): void
     {
-        $product = $this->givenProduct(ListingStatus::OnSale);
+        $product = $this->storeProduct(ListingStatus::OnSale);
 
         $this->client->jsonRequest('POST', '/products/' . $product->id()->value() . '/list');
 
@@ -31,7 +31,7 @@ final class ProductsOnSalePostControllerTest extends ProductsWebTestCase
 
     public function testRejectsWhenWithdrawn(): void
     {
-        $product = $this->givenProduct(ListingStatus::Withdrawn);
+        $product = $this->storeProduct(ListingStatus::Withdrawn);
 
         $this->client->jsonRequest('POST', '/products/' . $product->id()->value() . '/list');
 

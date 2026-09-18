@@ -11,17 +11,17 @@ final class ProductsWithdrawPostControllerTest extends ProductsWebTestCase
 {
     public function testWithdrawsProductOnSale(): void
     {
-        $product = $this->givenProduct(ListingStatus::OnSale);
+        $product = $this->storeProduct(ListingStatus::OnSale);
 
         $this->client->jsonRequest('POST', '/products/' . $product->id()->value() . '/withdraw');
 
         self::assertResponseStatusCodeSame(204);
-        self::assertSame(ListingStatus::Withdrawn, $this->listingStatusOf($product->id()));
+        $this->assertStoredProductHasListingStatus(ListingStatus::Withdrawn, $product->id());
     }
 
     public function testRejectsWhenAlreadyWithdrawn(): void
     {
-        $product = $this->givenProduct(ListingStatus::Withdrawn);
+        $product = $this->storeProduct(ListingStatus::Withdrawn);
 
         $this->client->jsonRequest('POST', '/products/' . $product->id()->value() . '/withdraw');
 
@@ -31,7 +31,7 @@ final class ProductsWithdrawPostControllerTest extends ProductsWebTestCase
 
     public function testRejectsWhenNotOnSale(): void
     {
-        $product = $this->givenProduct(ListingStatus::Draft);
+        $product = $this->storeProduct(ListingStatus::Draft);
 
         $this->client->jsonRequest('POST', '/products/' . $product->id()->value() . '/withdraw');
 
