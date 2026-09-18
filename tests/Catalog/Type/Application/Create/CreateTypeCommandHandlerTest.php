@@ -11,13 +11,11 @@ use App\Catalog\Type\Domain\TypeCreatedDomainEvent;
 use App\Catalog\Type\Domain\TypeRepository;
 use App\Shared\Domain\Bus\Event\EventBus;
 use App\Tests\Catalog\Type\Domain\TypeMother;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class CreateTypeCommandHandlerTest extends TestCase
 {
-    #[Test]
-    public function it_should_create_a_valid_type(): void
+    public function testCreatesValidType(): void
     {
         $command = CreateTypeCommandMother::create();
         $type = TypeMother::fromCommand($command);

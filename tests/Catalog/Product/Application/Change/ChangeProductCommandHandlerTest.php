@@ -12,17 +12,14 @@ use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Product\Domain\ProductNotExist;
 use App\Catalog\Product\Domain\ProductRepository;
 use App\Shared\Domain\Bus\Event\EventBus;
-use App\Tests\Catalog\Product\Application\Create\CreateProductCommandMother;
 use App\Tests\Catalog\Product\Domain\ProductMother;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class ChangeProductCommandHandlerTest extends TestCase
 {
-    #[Test]
-    public function it_should_change_an_existing_product(): void
+    public function testChangesExistingProduct(): void
     {
-        $existing = ProductMother::existing(CreateProductCommandMother::create());
+        $existing = ProductMother::create();
         $command = ChangeProductCommandMother::create(id: $existing->id()->value(), title: 'Clean Architecture revised');
 
         $repository = $this->createMock(ProductRepository::class);
@@ -54,8 +51,7 @@ final class ChangeProductCommandHandlerTest extends TestCase
         $handler->__invoke($command);
     }
 
-    #[Test]
-    public function it_should_fail_when_product_does_not_exist(): void
+    public function testFailsWhenProductDoesNotExist(): void
     {
         $command = ChangeProductCommandMother::create();
 
