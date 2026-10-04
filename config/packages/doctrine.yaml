@@ -31,6 +31,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Catalog/Type/Infrastructure/Persistence/Doctrine'
                 prefix: 'App\Catalog\Type\Domain'
                 alias: CatalogType
+            CatalogProductHistory:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Catalog/ProductHistory/Infrastructure/Persistence/Doctrine'
+                prefix: 'App\Catalog\ProductHistory\Domain'
+                alias: CatalogProductHistory
 
 when@test:
     doctrine:

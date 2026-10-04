@@ -8,20 +8,12 @@ use App\Shared\Domain\Bus\Event\DomainEvent;
 
 final class ProductChangedDomainEvent extends DomainEvent
 {
+    /**
+     * @param array<string, array{old: mixed, new: mixed}> $changes
+     */
     public function __construct(
         string $id,
-        private readonly string $typeId,
-        private readonly string $title,
-        private readonly ?string $ean,
-        private readonly ?string $description,
-        private readonly ?int $year,
-        private readonly ?int $weight,
-        private readonly ?int $length,
-        private readonly ?int $width,
-        private readonly ?int $height,
-        private readonly string $listingStatus,
-        private readonly int $listPriceAmount,
-        private readonly string $listPriceCurrency,
+        private readonly array $changes,
         ?string $eventId = null,
         ?string $occurredOn = null,
     ) {
@@ -33,95 +25,151 @@ final class ProductChangedDomainEvent extends DomainEvent
         return 'product.changed';
     }
 
+    public static function fromChange(
+        Product $product,
+        ProductTitle $title,
+        ?Ean $ean,
+        ?ProductDescription $description,
+        ?Year $year,
+        ?Dimensions $dimensions,
+        Money $listPrice,
+    ): ?self {
+        $changes = self::changesBetween($product, $title, $ean, $description, $year, $dimensions, $listPrice);
+
+        if ([] === $changes) {
+            return null;
+        }
+
+        return new self($product->id()->value(), $changes);
+    }
+
     public static function fromPrimitives(string $aggregateId, array $body, string $eventId, string $occurredOn): self
     {
-        return new self(
-            $aggregateId,
-            self::stringFrom($body, 'typeId'),
-            self::stringFrom($body, 'title'),
-            self::nullableStringFrom($body, 'ean'),
-            self::nullableStringFrom($body, 'description'),
-            self::nullableIntFrom($body, 'year'),
-            self::nullableIntFrom($body, 'weight'),
-            self::nullableIntFrom($body, 'length'),
-            self::nullableIntFrom($body, 'width'),
-            self::nullableIntFrom($body, 'height'),
-            self::stringFrom($body, 'listingStatus'),
-            self::intFrom($body, 'listPriceAmount'),
-            self::stringFrom($body, 'listPriceCurrency'),
-            $eventId,
-            $occurredOn,
-        );
+        return new self($aggregateId, self::changesFromBody($body), $eventId, $occurredOn);
     }
 
     public function toPrimitives(): array
     {
+        return $this->changes;
+    }
+
+    /**
+     * @return array<string, array{old: mixed, new: mixed}>
+     */
+    public function changes(): array
+    {
+        return $this->changes;
+    }
+
+    /**
+     * @param array<string, mixed> $body
+     *
+     * @return array<string, array{old: mixed, new: mixed}>
+     */
+    private static function changesFromBody(array $body): array
+    {
+        $changes = [];
+
+        foreach ($body as $field => $change) {
+            if (!is_array($change) || !array_key_exists('old', $change) || !array_key_exists('new', $change)) {
+                continue;
+            }
+
+            $changes[$field] = [
+                'old' => $change['old'],
+                'new' => $change['new'],
+            ];
+        }
+
+        return $changes;
+    }
+
+    /**
+     * @return array<string, array{old: mixed, new: mixed}>
+     */
+    private static function changesBetween(
+        Product $product,
+        ProductTitle $title,
+        ?Ean $ean,
+        ?ProductDescription $description,
+        ?Year $year,
+        ?Dimensions $dimensions,
+        Money $listPrice,
+    ): array {
+        $changes = [];
+
+        if (!$product->title()->equals($title)) {
+            $changes['title'] = ['old' => $product->title()->value(), 'new' => $title->value()];
+        }
+
+        if ($product->ean()?->value() !== $ean?->value()) {
+            $changes['ean'] = ['old' => $product->ean()?->value(), 'new' => $ean?->value()];
+        }
+
+        if ($product->description()?->value() !== $description?->value()) {
+            $changes['description'] = ['old' => $product->description()?->value(), 'new' => $description?->value()];
+        }
+
+        if ($product->year()?->value() !== $year?->value()) {
+            $changes['year'] = ['old' => $product->year()?->value(), 'new' => $year?->value()];
+        }
+
+        if (!self::sameDimensions($product->dimensions(), $dimensions)) {
+            $changes['dimensions'] = [
+                'old' => self::dimensionsPayload($product->dimensions()),
+                'new' => self::dimensionsPayload($dimensions),
+            ];
+        }
+
+        if (!$product->listPrice()->equals($listPrice)) {
+            $changes['listPrice'] = [
+                'old' => ['amount' => $product->listPrice()->amount(), 'currency' => $product->listPrice()->currency()],
+                'new' => ['amount' => $listPrice->amount(), 'currency' => $listPrice->currency()],
+            ];
+        }
+
+        return $changes;
+    }
+
+    private static function sameDimensions(?Dimensions $current, ?Dimensions $next): bool
+    {
+        $current = self::specifiedDimensions($current);
+        $next = self::specifiedDimensions($next);
+
+        if (null === $current || null === $next) {
+            return null === $current && null === $next;
+        }
+
+        return $current->weight() === $next->weight()
+            && $current->length() === $next->length()
+            && $current->width() === $next->width()
+            && $current->height() === $next->height();
+    }
+
+    private static function specifiedDimensions(?Dimensions $dimensions): ?Dimensions
+    {
+        if (null === $dimensions || !$dimensions->isSpecified()) {
+            return null;
+        }
+
+        return $dimensions;
+    }
+
+    /**
+     * @return array{weight: int, length: int, width: int, height: int}|null
+     */
+    private static function dimensionsPayload(?Dimensions $dimensions): ?array
+    {
+        $dimensions = self::specifiedDimensions($dimensions);
+        if (null === $dimensions) {
+            return null;
+        }
+
         return [
-            'typeId' => $this->typeId,
-            'title' => $this->title,
-            'ean' => $this->ean,
-            'description' => $this->description,
-            'year' => $this->year,
-            'weight' => $this->weight,
-            'length' => $this->length,
-            'width' => $this->width,
-            'height' => $this->height,
-            'listingStatus' => $this->listingStatus,
-            'listPriceAmount' => $this->listPriceAmount,
-            'listPriceCurrency' => $this->listPriceCurrency,
+            'weight' => $dimensions->weight(),
+            'length' => $dimensions->length(),
+            'width' => $dimensions->width(),
+            'height' => $dimensions->height(),
         ];
-    }
-
-    public static function fromProduct(Product $product): self
-    {
-        $dimensions = $product->dimensions();
-
-        return new self(
-            $product->id()->value(),
-            $product->typeId()->value(),
-            $product->title()->value(),
-            $product->ean()?->value(),
-            $product->description()?->value(),
-            $product->year()?->value(),
-            $dimensions?->weight(),
-            $dimensions?->length(),
-            $dimensions?->width(),
-            $dimensions?->height(),
-            $product->listingStatus()->value,
-            $product->listPrice()->amount(),
-            $product->listPrice()->currency(),
-        );
-    }
-
-    /** @param array<string, mixed> $body */
-    private static function stringFrom(array $body, string $key): string
-    {
-        $value = $body[$key] ?? '';
-
-        return is_string($value) ? $value : '';
-    }
-
-    /** @param array<string, mixed> $body */
-    private static function nullableStringFrom(array $body, string $key): ?string
-    {
-        $value = $body[$key] ?? null;
-
-        return is_string($value) ? $value : null;
-    }
-
-    /** @param array<string, mixed> $body */
-    private static function intFrom(array $body, string $key): int
-    {
-        $value = $body[$key] ?? 0;
-
-        return is_int($value) ? $value : 0;
-    }
-
-    /** @param array<string, mixed> $body */
-    private static function nullableIntFrom(array $body, string $key): ?int
-    {
-        $value = $body[$key] ?? null;
-
-        return is_int($value) ? $value : null;
     }
 }

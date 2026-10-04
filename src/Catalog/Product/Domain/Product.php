@@ -45,13 +45,18 @@ final class Product extends AggregateRoot
         ?Dimensions $dimensions,
         Money $listPrice,
     ): void {
+        $event = ProductChangedDomainEvent::fromChange($this, $title, $ean, $description, $year, $dimensions, $listPrice);
+
         $this->title = $title;
         $this->ean = $ean;
         $this->description = $description;
         $this->year = $year;
         $this->dimensions = $dimensions;
         $this->listPrice = $listPrice;
-        $this->record(ProductChangedDomainEvent::fromProduct($this));
+
+        if (null !== $event) {
+            $this->record($event);
+        }
     }
 
     public function listOnSale(): void
