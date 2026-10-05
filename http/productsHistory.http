@@ -1,0 +1,7 @@
+@host = http://localhost:8083
+@productId = 1c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e12
+
+### Get product history
+# @name getProduct
+GET {{host}}/products/{{productId}}/history
+Accept: application/json
