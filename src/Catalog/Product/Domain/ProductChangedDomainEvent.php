@@ -27,14 +27,9 @@ final class ProductChangedDomainEvent extends DomainEvent
 
     public static function fromChange(
         Product $product,
-        ProductTitle $title,
-        ?Ean $ean,
-        ?ProductDescription $description,
-        ?Year $year,
-        ?Dimensions $dimensions,
-        Money $listPrice,
+        ProductDetails $productDetails,
     ): ?self {
-        $changes = self::changesBetween($product, $title, $ean, $description, $year, $dimensions, $listPrice);
+        $changes = self::changesBetween($product, $productDetails);
 
         if ([] === $changes) {
             return null;
@@ -66,6 +61,7 @@ final class ProductChangedDomainEvent extends DomainEvent
      *
      * @return array<string, array{old: mixed, new: mixed}>
      */
+    // toDo метод выглядит сомнительно changesFromBody ->
     private static function changesFromBody(array $body): array
     {
         $changes = [];
@@ -89,42 +85,37 @@ final class ProductChangedDomainEvent extends DomainEvent
      */
     private static function changesBetween(
         Product $product,
-        ProductTitle $title,
-        ?Ean $ean,
-        ?ProductDescription $description,
-        ?Year $year,
-        ?Dimensions $dimensions,
-        Money $listPrice,
+        ProductDetails $productDetails
     ): array {
         $changes = [];
 
-        if (!$product->title()->equals($title)) {
-            $changes['title'] = ['old' => $product->title()->value(), 'new' => $title->value()];
+        if (!$product->title()->equals($productDetails->title)) {
+            $changes['title'] = ['old' => $product->title()->value(), 'new' => $productDetails->title->value()];
         }
 
-        if ($product->ean()?->value() !== $ean?->value()) {
-            $changes['ean'] = ['old' => $product->ean()?->value(), 'new' => $ean?->value()];
+        if ($product->ean()?->value() !== $productDetails->ean?->value()) {
+            $changes['ean'] = ['old' => $product->ean()?->value(), 'new' => $productDetails->ean?->value()];
         }
 
-        if ($product->description()?->value() !== $description?->value()) {
-            $changes['description'] = ['old' => $product->description()?->value(), 'new' => $description?->value()];
+        if ($product->description()?->value() !== $productDetails->description?->value()) {
+            $changes['description'] = ['old' => $product->description()?->value(), 'new' => $productDetails->description?->value()];
         }
 
-        if ($product->year()?->value() !== $year?->value()) {
-            $changes['year'] = ['old' => $product->year()?->value(), 'new' => $year?->value()];
+        if ($product->year()?->value() !== $productDetails->year?->value()) {
+            $changes['year'] = ['old' => $product->year()?->value(), 'new' => $productDetails->year?->value()];
         }
 
-        if (!self::sameDimensions($product->dimensions(), $dimensions)) {
+        if (!self::sameDimensions($product->dimensions(), $productDetails->dimensions)) {
             $changes['dimensions'] = [
                 'old' => self::dimensionsPayload($product->dimensions()),
-                'new' => self::dimensionsPayload($dimensions),
+                'new' => self::dimensionsPayload($productDetails->dimensions),
             ];
         }
 
-        if (!$product->listPrice()->equals($listPrice)) {
+        if (!$product->listPrice()->equals($productDetails->listPrice)) {
             $changes['listPrice'] = [
                 'old' => ['amount' => $product->listPrice()->amount(), 'currency' => $product->listPrice()->currency()],
-                'new' => ['amount' => $listPrice->amount(), 'currency' => $listPrice->currency()],
+                'new' => ['amount' => $productDetails->listPrice->amount(), 'currency' => $productDetails->listPrice->currency()],
             ];
         }
 
@@ -133,6 +124,8 @@ final class ProductChangedDomainEvent extends DomainEvent
 
     private static function sameDimensions(?Dimensions $current, ?Dimensions $next): bool
     {
+        // toDo должно уехать в сам Dimension а тут простое сравнение null не null
+        // todo скорость английской расскладки потренить
         $current = self::specifiedDimensions($current);
         $next = self::specifiedDimensions($next);
 
@@ -146,6 +139,8 @@ final class ProductChangedDomainEvent extends DomainEvent
             && $current->height() === $next->height();
     }
 
+    // toDo подумать над мысль что в каталоге может ыть Новый год и там может быть много типов товаров,
+    // toDo а не только с рутом напрмер book
     private static function specifiedDimensions(?Dimensions $dimensions): ?Dimensions
     {
         if (null === $dimensions || !$dimensions->isSpecified()) {
@@ -158,6 +153,7 @@ final class ProductChangedDomainEvent extends DomainEvent
     /**
      * @return array{weight: int, length: int, width: int, height: int}|null
      */
+    // todo тут не должно быть в самом дименшене сделать to__array
     private static function dimensionsPayload(?Dimensions $dimensions): ?array
     {
         $dimensions = self::specifiedDimensions($dimensions);

@@ -12,47 +12,27 @@ final class Product extends AggregateRoot
     public function __construct(
         private readonly ProductId $id,
         private readonly TypeId $typeId,
-        private ProductTitle $title,
-        private ?Ean $ean,
-        private ?ProductDescription $description,
-        private ?Year $year,
-        private ?Dimensions $dimensions,
+        private ProductDetails $productDetails,
         private ListingStatus $listingStatus,
-        private Money $listPrice,
     ) {}
 
     public static function create(
         ProductId $id,
         TypeId $typeId,
-        ProductTitle $title,
-        ?Ean $ean,
-        ?ProductDescription $description,
-        ?Year $year,
-        ?Dimensions $dimensions,
-        Money $listPrice,
+        ProductDetails $productDetails,
     ): self {
-        $product = new self($id, $typeId, $title, $ean, $description, $year, $dimensions, ListingStatus::Draft, $listPrice);
+        $product = new self($id, $typeId, $productDetails, ListingStatus::Draft);
         $product->record(ProductCreatedDomainEvent::fromProduct($product));
 
         return $product;
     }
 
     public function change(
-        ProductTitle $title,
-        ?Ean $ean,
-        ?ProductDescription $description,
-        ?Year $year,
-        ?Dimensions $dimensions,
-        Money $listPrice,
+        ProductDetails $productDetails,
     ): void {
-        $event = ProductChangedDomainEvent::fromChange($this, $title, $ean, $description, $year, $dimensions, $listPrice);
+        $event = ProductChangedDomainEvent::fromChange($this, $productDetails);
 
-        $this->title = $title;
-        $this->ean = $ean;
-        $this->description = $description;
-        $this->year = $year;
-        $this->dimensions = $dimensions;
-        $this->listPrice = $listPrice;
+        $this->productDetails = $productDetails;
 
         if (null !== $event) {
             $this->record($event);
@@ -110,31 +90,31 @@ final class Product extends AggregateRoot
 
     public function title(): ProductTitle
     {
-        return $this->title;
+        return $this->productDetails->title;
     }
 
     public function ean(): ?Ean
     {
-        return $this->ean;
+        return $this->productDetails->ean;
     }
 
     public function description(): ?ProductDescription
     {
-        return $this->description;
+        return $this->productDetails->description;
     }
 
     public function year(): ?Year
     {
-        return $this->year;
+        return $this->productDetails->year;
     }
 
     public function dimensions(): ?Dimensions
     {
-        if (null === $this->dimensions || !$this->dimensions->isSpecified()) {
+        if (null === $this->productDetails->dimensions || !$this->productDetails->dimensions->isSpecified()) {
             return null;
         }
 
-        return $this->dimensions;
+        return $this->productDetails->dimensions;
     }
 
     public function listingStatus(): ListingStatus
@@ -144,6 +124,6 @@ final class Product extends AggregateRoot
 
     public function listPrice(): Money
     {
-        return $this->listPrice;
+        return $this->productDetails->listPrice;
     }
 }
