@@ -7,7 +7,7 @@ namespace App\Catalog\Product\Domain;
 use App\Shared\Domain\Collection;
 
 /** @extends Collection<Product> */
-final class Products extends Collection
+final class Products extends Collection // toDo подумать над названием ProductList
 {
     protected function type(): string
     {

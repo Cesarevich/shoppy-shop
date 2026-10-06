@@ -11,6 +11,7 @@ use App\Catalog\Product\Domain\ListingStatus;
 use App\Catalog\Product\Domain\Money;
 use App\Catalog\Product\Domain\Product;
 use App\Catalog\Product\Domain\ProductDescription;
+use App\Catalog\Product\Domain\ProductDetails;
 use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Product\Domain\ProductTitle;
 use App\Catalog\Product\Domain\Year;
@@ -32,13 +33,15 @@ final class ProductMother
         return new Product(
             $id ?? ProductId::random(),
             $typeId ?? TypeId::random(),
-            $title ?? new ProductTitle('Clean Architecture'),
-            $ean ?? new Ean('9780134494166'),
-            $description ?? new ProductDescription('A craftsman guide'),
-            $year ?? new Year(2017),
-            $dimensions ?? new Dimensions(500, 240, 160, 30),
+            new ProductDetails(
+                $title ?? new ProductTitle('Clean Architecture'),
+                $ean ?? new Ean('9780134494166'),
+                $description ?? new ProductDescription('A craftsman guide'),
+                $year ?? new Year(2017),
+                $dimensions ?? new Dimensions(500, 240, 160, 30),
+                $listPrice ?? new Money(4500, 'BYN'),
+            ),
             $listingStatus,
-            $listPrice ?? new Money(4500, 'BYN'),
         );
     }
 
@@ -51,18 +54,20 @@ final class ProductMother
         return new Product(
             new ProductId($command->id()),
             new TypeId($command->typeId()),
-            new ProductTitle($command->title()),
-            null !== $ean ? new Ean($ean) : null,
-            null !== $description ? new ProductDescription($description) : null,
-            null !== $year ? new Year($year) : null,
-            Dimensions::fromPrimitives(
-                $command->weight(),
-                $command->length(),
-                $command->width(),
-                $command->height(),
+            new ProductDetails(
+                new ProductTitle($command->title()),
+                null !== $ean ? new Ean($ean) : null,
+                null !== $description ? new ProductDescription($description) : null,
+                null !== $year ? new Year($year) : null,
+                Dimensions::fromPrimitives(
+                    $command->weight(),
+                    $command->length(),
+                    $command->width(),
+                    $command->height(),
+                ),
+                new Money($command->listPriceAmount(), $command->listPriceCurrency()),
             ),
             ListingStatus::Draft,
-            new Money($command->listPriceAmount(), $command->listPriceCurrency()),
         );
     }
 }

@@ -8,6 +8,7 @@ use App\Catalog\Product\Domain\Dimensions;
 use App\Catalog\Product\Domain\Ean;
 use App\Catalog\Product\Domain\Money;
 use App\Catalog\Product\Domain\ProductDescription;
+use App\Catalog\Product\Domain\ProductDetails;
 use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Product\Domain\ProductTitle;
 use App\Catalog\Product\Domain\Year;
@@ -27,17 +28,19 @@ final readonly class CreateProductCommandHandler implements CommandHandler
         $this->creator->__invoke(
             new ProductId($command->id()),
             new TypeId($command->typeId()),
-            new ProductTitle($command->title()),
-            null !== $ean ? new Ean($ean) : null,
-            null !== $description ? new ProductDescription($description) : null,
-            null !== $year ? new Year($year) : null,
-            Dimensions::fromPrimitives(
-                $command->weight(),
-                $command->length(),
-                $command->width(),
-                $command->height(),
+            new ProductDetails(
+                new ProductTitle($command->title()),
+                null !== $ean ? new Ean($ean) : null,
+                null !== $description ? new ProductDescription($description) : null,
+                null !== $year ? new Year($year) : null,
+                Dimensions::fromPrimitives(
+                    $command->weight(),
+                    $command->length(),
+                    $command->width(),
+                    $command->height(),
+                ),
+                new Money($command->listPriceAmount(), $command->listPriceCurrency()),
             ),
-            new Money($command->listPriceAmount(), $command->listPriceCurrency()),
         );
     }
 }

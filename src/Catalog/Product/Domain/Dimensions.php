@@ -6,7 +6,7 @@ namespace App\Catalog\Product\Domain;
 
 use InvalidArgumentException;
 
-final class Dimensions
+final class Dimensions // toDo подумать над названием DimensionList
 {
     public function __construct(
         protected ?int $weight,
@@ -37,7 +37,7 @@ final class Dimensions
         return new self($weight, $length, $width, $height);
     }
 
-    public function isSpecified(): bool
+    public function isSpecified(): bool // toDo такого метода быть не должно, т.к. либо все геометрические параметры заданы, либо разом demention = null
     {
         return null !== $this->weight
             && null !== $this->length
