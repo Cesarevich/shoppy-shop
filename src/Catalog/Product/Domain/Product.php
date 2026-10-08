@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Catalog\Product\Domain;
 
-use App\Catalog\Type\Domain\TypeId;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\Aggregate\AggregateRoot;
 
 final class Product extends AggregateRoot

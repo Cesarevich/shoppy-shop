@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Type\Domain;
+namespace App\Catalog\Type\Domain\Exception;
 
+use App\Catalog\Type\Domain\ValueObject\TypeCode;
 use App\Shared\Domain\DomainError;
 
 final class TypeCodeAlreadyExists extends DomainError

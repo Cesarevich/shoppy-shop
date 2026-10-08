@@ -15,7 +15,7 @@ use App\Catalog\Product\Domain\ProductDetails;
 use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Product\Domain\ProductTitle;
 use App\Catalog\Product\Domain\Year;
-use App\Catalog\Type\Domain\TypeId;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
 
 final class ProductMother
 {

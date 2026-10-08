@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Catalog\Type\Domain;
 
+use App\Catalog\Type\Domain\Event\TypeCreatedDomainEvent;
+use App\Catalog\Type\Domain\ValueObject\TypeCode;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
+use App\Catalog\Type\Domain\ValueObject\TypeTitle;
 use App\Shared\Domain\Aggregate\AggregateRoot;
 
 final class Type extends AggregateRoot

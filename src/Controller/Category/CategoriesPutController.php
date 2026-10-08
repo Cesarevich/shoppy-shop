@@ -8,7 +8,7 @@ use App\Catalog\Category\Application\Command\CreateCategoryCommand;
 use App\Catalog\Category\Domain\Exception\CategoryAlreadyExists;
 use App\Catalog\Category\Domain\Exception\CategoryNotExist;
 use App\Catalog\Category\Domain\Exception\CategoryParentTypeMismatch;
-use App\Catalog\Type\Domain\TypeNotExist;
+use App\Catalog\Type\Domain\Exception\TypeNotExist;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;

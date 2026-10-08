@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Type\Infrastructure\Persistence\Doctrine;
+namespace App\Catalog\Type\Infrastructure\Persistence\Doctrine\Type;
 
-use App\Catalog\Type\Domain\TypeTitle;
+use App\Catalog\Type\Domain\ValueObject\TypeTitle;
 use App\Shared\Infrastructure\Persistence\Doctrine\StringValueObjectType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Catalog\Category\Domain\Exception;
 
-use App\Catalog\Category\Domain\CategoryId;
-use App\Catalog\Type\Domain\TypeId;
+use App\Catalog\Category\Domain\ValueObject\CategoryId;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\DomainError;
 
 final class CategoryParentTypeMismatch extends DomainError

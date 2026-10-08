@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Type\Domain;
+namespace App\Catalog\Type\Domain\Repository;
+
+use App\Catalog\Type\Domain\Type;
+use App\Catalog\Type\Domain\ValueObject\TypeCode;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
 
 interface TypeRepository
 {
