@@ -22,6 +22,7 @@ services:
             - '../src/Catalog/Product/Domain/'
             - '../src/Catalog/ProductHistory/Domain/'
             - '../src/Catalog/Type/Domain/'
+            - '../src/Catalog/Category/Domain/'
             - '../src/Shared/Domain/'
 
     App\Shared\Infrastructure\Bus\Command\InMemoryCommandBus:
@@ -42,3 +43,4 @@ services:
     App\Catalog\Product\Domain\ProductRepository: '@App\Catalog\Product\Infrastructure\Persistence\DoctrineProductRepository'
     App\Catalog\ProductHistory\Domain\ProductHistoryRepository: '@App\Catalog\ProductHistory\Infrastructure\Persistence\DoctrineProductHistoryRepository'
     App\Catalog\Type\Domain\TypeRepository: '@App\Catalog\Type\Infrastructure\Persistence\DoctrineTypeRepository'
+    App\Catalog\Category\Domain\Repository\CategoryRepository: '@App\Catalog\Category\Infrastructure\Persistence\DoctrineCategoryRepository'

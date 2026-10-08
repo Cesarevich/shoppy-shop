@@ -1,0 +1,28 @@
+@host = http://localhost:8083
+@bookCategoryId = 6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b
+@bookTypeId = 3c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e17
+@childBookCategoryId = 6ec0bd7f-11c0-43da-975e-2a8ad9ebae07
+
+### Create category
+# @name createCategory
+PUT {{host}}/categories/{{bookCategoryId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "title": "Художественная литература",
+    "typeId": "{{bookTypeId}}",
+    "parentId": null
+}
+
+### Create child category
+# @name createChildCategory
+PUT {{host}}/categories/{{childBookCategoryId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "title": "Художественная литература",
+    "typeId": "{{bookTypeId}}",
+    "parentId": "{{bookCategoryId}}"
+}
