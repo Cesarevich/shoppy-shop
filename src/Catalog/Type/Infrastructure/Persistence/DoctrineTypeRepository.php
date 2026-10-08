@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Catalog\Type\Infrastructure\Persistence;
 
+use App\Catalog\Type\Domain\Repository\TypeRepository;
 use App\Catalog\Type\Domain\Type;
-use App\Catalog\Type\Domain\TypeCode;
-use App\Catalog\Type\Domain\TypeId;
-use App\Catalog\Type\Domain\TypeRepository;
+use App\Catalog\Type\Domain\ValueObject\TypeCode;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineRepository;
 
 final class DoctrineTypeRepository extends DoctrineRepository implements TypeRepository

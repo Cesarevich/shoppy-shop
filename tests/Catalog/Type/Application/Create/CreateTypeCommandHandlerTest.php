@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Catalog\Type\Application\Create;
 
-use App\Catalog\Type\Application\Create\CreateTypeCommandHandler;
-use App\Catalog\Type\Application\Create\TypeCreator;
+use App\Catalog\Type\Application\Handler\CreateTypeCommandHandler;
+use App\Catalog\Type\Application\Service\TypeCreator;
+use App\Catalog\Type\Domain\Event\TypeCreatedDomainEvent;
+use App\Catalog\Type\Domain\Repository\TypeRepository;
 use App\Catalog\Type\Domain\Type;
-use App\Catalog\Type\Domain\TypeCreatedDomainEvent;
-use App\Catalog\Type\Domain\TypeRepository;
 use App\Shared\Domain\Bus\Event\EventBus;
 use App\Tests\Catalog\Type\Domain\TypeMother;
 use PHPUnit\Framework\TestCase;

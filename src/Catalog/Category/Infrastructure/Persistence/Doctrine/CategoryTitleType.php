@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Catalog\Category\Infrastructure\Persistence\Doctrine;
 
-use App\Catalog\Category\Domain\CategoryTitle;
+use App\Catalog\Category\Domain\ValueObject\CategoryTitle;
 use App\Shared\Infrastructure\Persistence\Doctrine\StringValueObjectType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 

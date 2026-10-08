@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Type\Application\Create;
+namespace App\Catalog\Type\Application\Service;
 
+use App\Catalog\Type\Domain\Exception\TypeAlreadyExists;
+use App\Catalog\Type\Domain\Exception\TypeCodeAlreadyExists;
+use App\Catalog\Type\Domain\Repository\TypeRepository;
 use App\Catalog\Type\Domain\Type;
-use App\Catalog\Type\Domain\TypeAlreadyExists;
-use App\Catalog\Type\Domain\TypeCodeAlreadyExists;
-use App\Catalog\Type\Domain\TypeId;
-use App\Catalog\Type\Domain\TypeCode;
-use App\Catalog\Type\Domain\TypeRepository;
-use App\Catalog\Type\Domain\TypeTitle;
+use App\Catalog\Type\Domain\ValueObject\TypeCode;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
+use App\Catalog\Type\Domain\ValueObject\TypeTitle;
 use App\Shared\Domain\Bus\Event\EventBus;
 
 final readonly class TypeCreator

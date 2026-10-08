@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Catalog\Category\Infrastructure\Persistence;
 
 use App\Catalog\Category\Domain\Category;
-use App\Catalog\Category\Domain\CategoryId;
 use App\Catalog\Category\Domain\Repository\CategoryRepository;
+use App\Catalog\Category\Domain\ValueObject\CategoryId;
 
 final class InMemoryCategoryRepository implements CategoryRepository
 {

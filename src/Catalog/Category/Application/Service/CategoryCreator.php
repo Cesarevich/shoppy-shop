@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Catalog\Category\Application\Service;
 
 use App\Catalog\Category\Domain\Category;
-use App\Catalog\Category\Domain\CategoryId;
-use App\Catalog\Category\Domain\CategoryTitle;
 use App\Catalog\Category\Domain\Exception\CategoryAlreadyExists;
 use App\Catalog\Category\Domain\Exception\CategoryNotExist;
 use App\Catalog\Category\Domain\Exception\CategoryParentTypeMismatch;
 use App\Catalog\Category\Domain\Repository\CategoryRepository;
-use App\Catalog\Type\Domain\TypeId;
-use App\Catalog\Type\Domain\TypeNotExist;
-use App\Catalog\Type\Domain\TypeRepository;
+use App\Catalog\Category\Domain\ValueObject\CategoryId;
+use App\Catalog\Category\Domain\ValueObject\CategoryTitle;
+use App\Catalog\Type\Domain\Exception\TypeNotExist;
+use App\Catalog\Type\Domain\Repository\TypeRepository;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\Bus\Event\EventBus;
 
 final readonly class CategoryCreator

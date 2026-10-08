@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Catalog\Category\Domain\Exception;
 
-use App\Catalog\Category\Domain\CategoryId;
+use App\Catalog\Category\Domain\ValueObject\CategoryId;
 use App\Shared\Domain\DomainError;
 
 final class CategoryNotExist extends DomainError

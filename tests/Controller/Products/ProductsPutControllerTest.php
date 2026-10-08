@@ -6,7 +6,7 @@ namespace App\Tests\Controller\Products;
 
 use App\Catalog\Product\Domain\ListingStatus;
 use App\Catalog\Product\Domain\ProductId;
-use App\Catalog\Type\Domain\TypeId;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Tests\Catalog\Product\Application\Create\CreateProductCommandMother;
 
 final class ProductsPutControllerTest extends ProductsWebTestCase

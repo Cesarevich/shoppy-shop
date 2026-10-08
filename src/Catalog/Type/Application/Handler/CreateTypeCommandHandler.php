@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Type\Application\Create;
+namespace App\Catalog\Type\Application\Handler;
 
-use App\Catalog\Type\Domain\TypeId;
-use App\Catalog\Type\Domain\TypeCode;
-use App\Catalog\Type\Domain\TypeTitle;
+use App\Catalog\Type\Application\Command\CreateTypeCommand;
+use App\Catalog\Type\Application\Service\TypeCreator;
+use App\Catalog\Type\Domain\ValueObject\TypeCode;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
+use App\Catalog\Type\Domain\ValueObject\TypeTitle;
 use App\Shared\Domain\Bus\Command\CommandHandler;
 
 final readonly class CreateTypeCommandHandler implements CommandHandler

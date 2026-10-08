@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Type;
 
-use App\Catalog\Type\Domain\TypeId;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Tests\Catalog\Type\Application\Create\CreateTypeCommandMother;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

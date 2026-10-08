@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Catalog\Category\Domain\Repository;
 
 use App\Catalog\Category\Domain\Category;
-use App\Catalog\Category\Domain\CategoryId;
+use App\Catalog\Category\Domain\ValueObject\CategoryId;
 
 interface CategoryRepository
 {

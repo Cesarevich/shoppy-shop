@@ -9,9 +9,9 @@ use App\Catalog\Product\Domain\ProductAlreadyExists;
 use App\Catalog\Product\Domain\ProductDetails;
 use App\Catalog\Product\Domain\ProductId;
 use App\Catalog\Product\Domain\ProductRepository;
-use App\Catalog\Type\Domain\TypeId;
-use App\Catalog\Type\Domain\TypeNotExist;
-use App\Catalog\Type\Domain\TypeRepository;
+use App\Catalog\Type\Domain\Exception\TypeNotExist;
+use App\Catalog\Type\Domain\Repository\TypeRepository;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\Bus\Event\EventBus;
 
 final readonly class ProductCreator

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Type;
 
-use App\Catalog\Type\Application\Create\CreateTypeCommand;
-use App\Catalog\Type\Domain\TypeAlreadyExists;
-use App\Catalog\Type\Domain\TypeCodeAlreadyExists;
+use App\Catalog\Type\Application\Command\CreateTypeCommand;
+use App\Catalog\Type\Domain\Exception\TypeAlreadyExists;
+use App\Catalog\Type\Domain\Exception\TypeCodeAlreadyExists;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;

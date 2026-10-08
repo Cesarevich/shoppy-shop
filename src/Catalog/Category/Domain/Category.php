@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Catalog\Category\Domain;
 
-use App\Catalog\Type\Domain\TypeId;
+use App\Catalog\Category\Domain\Event\CategoryCreatedDomainEvent;
+use App\Catalog\Category\Domain\ValueObject\CategoryId;
+use App\Catalog\Category\Domain\ValueObject\CategoryTitle;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\Aggregate\AggregateRoot;
 
 final class Category extends AggregateRoot

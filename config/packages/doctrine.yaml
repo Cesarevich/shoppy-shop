@@ -9,9 +9,9 @@ doctrine:
             ean: App\Catalog\Product\Infrastructure\Persistence\Doctrine\EanType
             product_description: App\Catalog\Product\Infrastructure\Persistence\Doctrine\ProductDescriptionType
             product_year: App\Catalog\Product\Infrastructure\Persistence\Doctrine\ProductYearType
-            type_id: App\Catalog\Type\Infrastructure\Persistence\Doctrine\TypeIdType
-            type_code: App\Catalog\Type\Infrastructure\Persistence\Doctrine\TypeCodeType
-            type_title: App\Catalog\Type\Infrastructure\Persistence\Doctrine\TypeTitleType
+            type_id: App\Catalog\Type\Infrastructure\Persistence\Doctrine\Type\TypeIdType
+            type_code: App\Catalog\Type\Infrastructure\Persistence\Doctrine\Type\TypeCodeType
+            type_title: App\Catalog\Type\Infrastructure\Persistence\Doctrine\Type\TypeTitleType
             category_id: App\Catalog\Category\Infrastructure\Persistence\Doctrine\CategoryIdType
             category_title: App\Catalog\Category\Infrastructure\Persistence\Doctrine\CategoryTitleType
     orm:

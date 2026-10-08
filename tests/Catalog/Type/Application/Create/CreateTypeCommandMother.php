@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Catalog\Type\Application\Create;
 
-use App\Catalog\Type\Application\Create\CreateTypeCommand;
+use App\Catalog\Type\Application\Command\CreateTypeCommand;
 
 final class CreateTypeCommandMother
 {

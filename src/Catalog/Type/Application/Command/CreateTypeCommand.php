@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Type\Application\Create;
+namespace App\Catalog\Type\Application\Command;
 
 use App\Shared\Domain\Bus\Command\Command;
 
