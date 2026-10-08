@@ -11,7 +11,7 @@ final class Type extends AggregateRoot
     public function __construct(
         private readonly TypeId $id,
         private readonly TypeCode $code,
-        private TypeTitle $title,
+        private readonly TypeTitle $title,
     ) {}
 
     public static function create(

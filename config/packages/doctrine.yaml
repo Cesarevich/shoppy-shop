@@ -12,6 +12,8 @@ doctrine:
             type_id: App\Catalog\Type\Infrastructure\Persistence\Doctrine\TypeIdType
             type_code: App\Catalog\Type\Infrastructure\Persistence\Doctrine\TypeCodeType
             type_title: App\Catalog\Type\Infrastructure\Persistence\Doctrine\TypeTitleType
+            category_id: App\Catalog\Category\Infrastructure\Persistence\Doctrine\CategoryIdType
+            category_title: App\Catalog\Category\Infrastructure\Persistence\Doctrine\CategoryTitleType
     orm:
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -37,6 +39,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Catalog/ProductHistory/Infrastructure/Persistence/Doctrine'
                 prefix: 'App\Catalog\ProductHistory\Domain'
                 alias: CatalogProductHistory
+            CatalogCategory:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Catalog/Category/Infrastructure/Persistence/Doctrine'
+                prefix: 'App\Catalog\Category\Domain'
+                alias: CatalogCategory
 
 when@test:
     doctrine:
