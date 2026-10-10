@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Catalog\ProductHistory\Application\Record;
 
+use App\Catalog\Product\Domain\Event\ProductListedDomainEvent;
 use App\Catalog\Product\Domain\ListingStatus;
-use App\Catalog\Product\Domain\ProductListedDomainEvent;
 use App\Catalog\ProductHistory\Application\Record\ProductHistoryRecorder;
 use App\Catalog\ProductHistory\Application\Record\RecordProductHistoryOnProductListed;
 use App\Catalog\ProductHistory\Infrastructure\Persistence\InMemoryProductHistoryRepository;

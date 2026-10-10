@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Products;
 
-use App\Catalog\Product\Domain\ProductId;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Catalog\ProductHistory\Application\Find\FindProductHistoryQuery;
 use App\Catalog\ProductHistory\Application\Find\ProductHistoriesResponse;
 use App\Shared\Domain\Bus\Query\QueryBus;

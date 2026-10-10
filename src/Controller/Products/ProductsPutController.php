@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Create\CreateProductCommand;
-use App\Catalog\Product\Domain\ProductAlreadyExists;
+use App\Catalog\Product\Domain\Exception\ProductAlreadyExists;
 use App\Catalog\Type\Domain\Exception\TypeNotExist;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;

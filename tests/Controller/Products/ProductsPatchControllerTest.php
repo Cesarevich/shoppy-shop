@@ -6,7 +6,7 @@ namespace App\Tests\Controller\Products;
 
 use App\Catalog\Product\Application\Change\ChangeProductCommand;
 use App\Catalog\Product\Domain\ListingStatus;
-use App\Catalog\Product\Domain\ProductId;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Tests\Catalog\Product\Application\Change\ChangeProductCommandMother;
 
 final class ProductsPatchControllerTest extends ProductsWebTestCase

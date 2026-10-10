@@ -7,8 +7,8 @@ namespace App\Tests\Catalog\Product\Application\List;
 use App\Catalog\Product\Application\List\FindProductListQuery;
 use App\Catalog\Product\Application\List\FindProductListQueryHandler;
 use App\Catalog\Product\Application\List\ProductListFinder;
-use App\Catalog\Product\Domain\ProductRepository;
 use App\Catalog\Product\Domain\Products;
+use App\Catalog\Product\Domain\Repository\ProductRepository;
 use App\Tests\Catalog\Product\Domain\ProductMother;
 use PHPUnit\Framework\TestCase;
 

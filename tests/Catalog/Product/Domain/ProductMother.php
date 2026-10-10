@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Tests\Catalog\Product\Domain;
 
 use App\Catalog\Product\Application\Create\CreateProductCommand;
-use App\Catalog\Product\Domain\Dimensions;
-use App\Catalog\Product\Domain\Ean;
 use App\Catalog\Product\Domain\ListingStatus;
-use App\Catalog\Product\Domain\Money;
 use App\Catalog\Product\Domain\Product;
-use App\Catalog\Product\Domain\ProductDescription;
 use App\Catalog\Product\Domain\ProductDetails;
-use App\Catalog\Product\Domain\ProductId;
-use App\Catalog\Product\Domain\ProductTitle;
-use App\Catalog\Product\Domain\Year;
+use App\Catalog\Product\Domain\ValueObject\Dimensions;
+use App\Catalog\Product\Domain\ValueObject\Ean;
+use App\Catalog\Product\Domain\ValueObject\Money;
+use App\Catalog\Product\Domain\ValueObject\ProductDescription;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
+use App\Catalog\Product\Domain\ValueObject\ProductTitle;
+use App\Catalog\Product\Domain\ValueObject\Year;
 use App\Catalog\Type\Domain\ValueObject\TypeId;
 
 final class ProductMother

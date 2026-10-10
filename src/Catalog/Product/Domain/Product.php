@@ -4,6 +4,23 @@ declare(strict_types=1);
 
 namespace App\Catalog\Product\Domain;
 
+use App\Catalog\Product\Domain\Event\ProductChangedDomainEvent;
+use App\Catalog\Product\Domain\Event\ProductCreatedDomainEvent;
+use App\Catalog\Product\Domain\Event\ProductListedDomainEvent;
+use App\Catalog\Product\Domain\Event\ProductRelistedDomainEvent;
+use App\Catalog\Product\Domain\Event\ProductWithdrawnDomainEvent;
+use App\Catalog\Product\Domain\Exception\ProductAlreadyOnSale;
+use App\Catalog\Product\Domain\Exception\ProductAlreadyWithdrawn;
+use App\Catalog\Product\Domain\Exception\ProductNotInDraft;
+use App\Catalog\Product\Domain\Exception\ProductNotOnSale;
+use App\Catalog\Product\Domain\Exception\ProductNotWithdrawn;
+use App\Catalog\Product\Domain\ValueObject\Dimensions;
+use App\Catalog\Product\Domain\ValueObject\Ean;
+use App\Catalog\Product\Domain\ValueObject\Money;
+use App\Catalog\Product\Domain\ValueObject\ProductDescription;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
+use App\Catalog\Product\Domain\ValueObject\ProductTitle;
+use App\Catalog\Product\Domain\ValueObject\Year;
 use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\Aggregate\AggregateRoot;
 

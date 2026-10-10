@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Catalog\Product\Application\Find;
 
-use App\Catalog\Product\Domain\ProductId;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Shared\Domain\Bus\Query\QueryHandler;
 
 final readonly class FindProductQueryHandler implements QueryHandler

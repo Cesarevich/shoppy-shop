@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller\Products;
 
 use App\Catalog\Product\Domain\ListingStatus;
-use App\Catalog\Product\Domain\ProductId;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
 
 final class ProductsWithdrawPostControllerTest extends ProductsWebTestCase
 {

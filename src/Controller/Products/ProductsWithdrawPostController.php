@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Withdraw\WithdrawProductFromSaleCommand;
-use App\Catalog\Product\Domain\ProductAlreadyWithdrawn;
-use App\Catalog\Product\Domain\ProductNotExist;
-use App\Catalog\Product\Domain\ProductNotOnSale;
+use App\Catalog\Product\Domain\Exception\ProductAlreadyWithdrawn;
+use App\Catalog\Product\Domain\Exception\ProductNotExist;
+use App\Catalog\Product\Domain\Exception\ProductNotOnSale;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;

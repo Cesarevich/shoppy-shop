@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Catalog\Product\Domain;
 
+use App\Catalog\Product\Domain\Event\ProductListedDomainEvent;
+use App\Catalog\Product\Domain\Event\ProductRelistedDomainEvent;
+use App\Catalog\Product\Domain\Event\ProductWithdrawnDomainEvent;
+use App\Catalog\Product\Domain\Exception\ProductAlreadyOnSale;
+use App\Catalog\Product\Domain\Exception\ProductAlreadyWithdrawn;
+use App\Catalog\Product\Domain\Exception\ProductNotInDraft;
+use App\Catalog\Product\Domain\Exception\ProductNotOnSale;
+use App\Catalog\Product\Domain\Exception\ProductNotWithdrawn;
 use App\Catalog\Product\Domain\ListingStatus;
-use App\Catalog\Product\Domain\ProductAlreadyOnSale;
-use App\Catalog\Product\Domain\ProductAlreadyWithdrawn;
-use App\Catalog\Product\Domain\ProductListedDomainEvent;
-use App\Catalog\Product\Domain\ProductNotInDraft;
-use App\Catalog\Product\Domain\ProductNotOnSale;
-use App\Catalog\Product\Domain\ProductNotWithdrawn;
-use App\Catalog\Product\Domain\ProductRelistedDomainEvent;
-use App\Catalog\Product\Domain\ProductWithdrawnDomainEvent;
 use PHPUnit\Framework\TestCase;
 
 final class ProductListingTest extends TestCase

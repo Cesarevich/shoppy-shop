@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Catalog\Product\Application\List;
 
-use App\Catalog\Product\Domain\ProductRepository;
 use App\Catalog\Product\Domain\Products;
+use App\Catalog\Product\Domain\Repository\ProductRepository;
 
 final readonly class ProductListFinder
 {

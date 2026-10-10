@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Catalog\ProductHistory\Infrastructure\Persistence;
 
-use App\Catalog\Product\Domain\ProductId;
-use App\Catalog\ProductHistory\Domain\ProductHistory;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Catalog\ProductHistory\Domain\ProductHistories;
+use App\Catalog\ProductHistory\Domain\ProductHistory;
 use App\Catalog\ProductHistory\Domain\ProductHistoryRepository;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineRepository;
 

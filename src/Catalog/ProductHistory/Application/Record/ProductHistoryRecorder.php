@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Catalog\ProductHistory\Application\Record;
 
+use App\Catalog\Product\Domain\Event\ProductChangedDomainEvent;
+use App\Catalog\Product\Domain\Event\ProductListedDomainEvent;
+use App\Catalog\Product\Domain\Event\ProductRelistedDomainEvent;
+use App\Catalog\Product\Domain\Event\ProductWithdrawnDomainEvent;
 use App\Catalog\Product\Domain\ListingStatus;
-use App\Catalog\Product\Domain\ProductChangedDomainEvent;
-use App\Catalog\Product\Domain\ProductId;
-use App\Catalog\Product\Domain\ProductListedDomainEvent;
-use App\Catalog\Product\Domain\ProductRelistedDomainEvent;
-use App\Catalog\Product\Domain\ProductWithdrawnDomainEvent;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Catalog\ProductHistory\Domain\ProductHistory;
 use App\Catalog\ProductHistory\Domain\ProductHistoryRepository;
 
