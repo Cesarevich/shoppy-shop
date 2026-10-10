@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Catalog\ProductHistory\Domain;
 
-use App\Catalog\Product\Domain\ProductId;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
 
 interface ProductHistoryRepository
 {

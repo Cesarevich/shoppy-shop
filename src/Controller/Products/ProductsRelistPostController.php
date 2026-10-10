@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\RelistOnSale\RelistProductOnSaleCommand;
-use App\Catalog\Product\Domain\ProductAlreadyOnSale;
-use App\Catalog\Product\Domain\ProductNotExist;
-use App\Catalog\Product\Domain\ProductNotWithdrawn;
+use App\Catalog\Product\Domain\Exception\ProductAlreadyOnSale;
+use App\Catalog\Product\Domain\Exception\ProductNotExist;
+use App\Catalog\Product\Domain\Exception\ProductNotWithdrawn;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;

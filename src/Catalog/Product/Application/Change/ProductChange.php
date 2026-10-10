@@ -6,8 +6,8 @@ namespace App\Catalog\Product\Application\Change;
 
 use App\Catalog\Product\Application\Find\ProductFinder;
 use App\Catalog\Product\Domain\ProductDetails;
-use App\Catalog\Product\Domain\ProductId;
-use App\Catalog\Product\Domain\ProductRepository;
+use App\Catalog\Product\Domain\Repository\ProductRepository;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Shared\Domain\Bus\Event\EventBus;
 
 final readonly class ProductChange

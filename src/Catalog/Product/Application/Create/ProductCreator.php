@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Catalog\Product\Application\Create;
 
+use App\Catalog\Product\Domain\Exception\ProductAlreadyExists;
 use App\Catalog\Product\Domain\Product;
-use App\Catalog\Product\Domain\ProductAlreadyExists;
 use App\Catalog\Product\Domain\ProductDetails;
-use App\Catalog\Product\Domain\ProductId;
-use App\Catalog\Product\Domain\ProductRepository;
+use App\Catalog\Product\Domain\Repository\ProductRepository;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Catalog\Type\Domain\Exception\TypeNotExist;
 use App\Catalog\Type\Domain\Repository\TypeRepository;
 use App\Catalog\Type\Domain\ValueObject\TypeId;

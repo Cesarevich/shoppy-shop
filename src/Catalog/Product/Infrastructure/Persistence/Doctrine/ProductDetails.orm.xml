@@ -10,8 +10,8 @@
         <field name="description" type="product_description" column="description" nullable="true" />
         <field name="year" type="product_year" column="year" nullable="true" />
 
-        <embedded name="dimensions" class="App\Catalog\Product\Domain\Dimensions" use-column-prefix="false" />
-        <embedded name="listPrice" class="App\Catalog\Product\Domain\Money" column-prefix="list_price_" />
+        <embedded name="dimensions" class="App\Catalog\Product\Domain\ValueObject\Dimensions" use-column-prefix="false" />
+        <embedded name="listPrice" class="App\Catalog\Product\Domain\ValueObject\Money" column-prefix="list_price_" />
     </embeddable>
 
 </doctrine-mapping>

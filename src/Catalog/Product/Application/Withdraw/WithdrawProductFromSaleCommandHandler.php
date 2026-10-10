@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Catalog\Product\Application\Withdraw;
 
-use App\Catalog\Product\Domain\ProductId;
-use App\Catalog\Product\Domain\ProductNotExist;
-use App\Catalog\Product\Domain\ProductRepository;
+use App\Catalog\Product\Domain\Exception\ProductNotExist;
+use App\Catalog\Product\Domain\Repository\ProductRepository;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Shared\Domain\Bus\Command\CommandHandler;
 use App\Shared\Domain\Bus\Event\EventBus;
 

@@ -6,9 +6,9 @@ namespace App\Tests\Catalog\Product\Application\Create;
 
 use App\Catalog\Product\Application\Create\CreateProductCommandHandler;
 use App\Catalog\Product\Application\Create\ProductCreator;
+use App\Catalog\Product\Domain\Event\ProductCreatedDomainEvent;
 use App\Catalog\Product\Domain\Product;
-use App\Catalog\Product\Domain\ProductCreatedDomainEvent;
-use App\Catalog\Product\Domain\ProductRepository;
+use App\Catalog\Product\Domain\Repository\ProductRepository;
 use App\Catalog\Type\Domain\Exception\TypeNotExist;
 use App\Catalog\Type\Domain\Repository\TypeRepository;
 use App\Catalog\Type\Domain\ValueObject\TypeId;

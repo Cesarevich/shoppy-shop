@@ -6,7 +6,7 @@ namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Find\FindProductQuery;
 use App\Catalog\Product\Application\Find\ProductResponse;
-use App\Catalog\Product\Domain\ProductNotExist;
+use App\Catalog\Product\Domain\Exception\ProductNotExist;
 use App\Shared\Domain\Bus\Query\QueryBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
