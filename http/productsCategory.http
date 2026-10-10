@@ -1,0 +1,8 @@
+@host = http://localhost:8083
+@productId = 1c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e12
+@childBookCategoryId = 6ec0bd7f-11c0-43da-975e-2a8ad9ebae07
+
+### Put product to category
+# @name putProductCategory
+PUT {{host}}/products/{{productId}}/categories/{{childBookCategoryId}}
+Accept: application/json
