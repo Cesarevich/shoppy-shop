@@ -44,6 +44,6 @@ final class ProductsOnSalePostControllerTest extends ProductsWebTestCase
         $this->client->jsonRequest('POST', '/products/' . ProductId::random()->value() . '/list');
 
         self::assertResponseStatusCodeSame(404);
-        self::assertSame('product_not_exist', $this->responseData()['error']);
+        self::assertSame('product_not_exists', $this->responseData()['error']);
     }
 }

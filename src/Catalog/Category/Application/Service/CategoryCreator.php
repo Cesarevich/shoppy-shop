@@ -6,12 +6,12 @@ namespace App\Catalog\Category\Application\Service;
 
 use App\Catalog\Category\Domain\Category;
 use App\Catalog\Category\Domain\Exception\CategoryAlreadyExists;
-use App\Catalog\Category\Domain\Exception\CategoryNotExist;
+use App\Catalog\Category\Domain\Exception\CategoryNotExists;
 use App\Catalog\Category\Domain\Exception\CategoryParentTypeMismatch;
 use App\Catalog\Category\Domain\Repository\CategoryRepository;
 use App\Catalog\Category\Domain\ValueObject\CategoryId;
 use App\Catalog\Category\Domain\ValueObject\CategoryTitle;
-use App\Catalog\Type\Domain\Exception\TypeNotExist;
+use App\Catalog\Type\Domain\Exception\TypeNotExists;
 use App\Catalog\Type\Domain\Repository\TypeRepository;
 use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\Bus\Event\EventBus;
@@ -31,7 +31,7 @@ final readonly class CategoryCreator
         ?CategoryId $parentId,
     ): void {
         if (null === $this->typeRepository->search($typeId)) {
-            throw new TypeNotExist($typeId);
+            throw new TypeNotExists($typeId);
         }
 
         if (null !== $this->categoryRepository->search($id)) {
@@ -41,7 +41,7 @@ final readonly class CategoryCreator
         if (null !== $parentId) {
             $parent = $this->categoryRepository->search($parentId);
             if (null === $parent) {
-                throw new CategoryNotExist($parentId);
+                throw new CategoryNotExists($parentId);
             }
             if (!$parent->typeId()->equals($typeId)) {
                 throw new CategoryParentTypeMismatch($parentId, $typeId);

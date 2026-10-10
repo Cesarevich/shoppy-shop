@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Change\ChangeProductCommand;
-use App\Catalog\Product\Domain\Exception\ProductNotExist;
+use App\Catalog\Product\Domain\Exception\ProductNotExists;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use InvalidArgumentException;
@@ -42,8 +42,8 @@ final class ProductsPatchController
                     self::requiredStringFrom($payload, 'listPriceCurrency'),
                 ),
             );
-        } catch (ProductNotExist) {
-            return new JsonResponse(['error' => 'product_not_exist'], Response::HTTP_NOT_FOUND);
+        } catch (ProductNotExists) {
+            return new JsonResponse(['error' => 'product_not_exists'], Response::HTTP_NOT_FOUND);
         }
 
         return new Response('', Response::HTTP_NO_CONTENT);

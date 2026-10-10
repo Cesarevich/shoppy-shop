@@ -7,7 +7,7 @@ namespace App\Catalog\Category\Domain\Exception;
 use App\Catalog\Category\Domain\ValueObject\CategoryId;
 use App\Shared\Domain\DomainError;
 
-final class CategoryNotExist extends DomainError
+final class CategoryNotExists extends DomainError
 {
     public function __construct(private readonly CategoryId $id)
     {
@@ -16,7 +16,7 @@ final class CategoryNotExist extends DomainError
 
     public function errorCode(): string
     {
-        return 'category_not_exist';
+        return 'category_not_exists';
     }
 
     protected function errorMessage(): string

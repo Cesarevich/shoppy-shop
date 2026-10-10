@@ -9,7 +9,7 @@ use App\Catalog\Product\Domain\Product;
 use App\Catalog\Product\Domain\ProductDetails;
 use App\Catalog\Product\Domain\Repository\ProductRepository;
 use App\Catalog\Product\Domain\ValueObject\ProductId;
-use App\Catalog\Type\Domain\Exception\TypeNotExist;
+use App\Catalog\Type\Domain\Exception\TypeNotExists;
 use App\Catalog\Type\Domain\Repository\TypeRepository;
 use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\Bus\Event\EventBus;
@@ -28,7 +28,7 @@ final readonly class ProductCreator
         ProductDetails $productDetails,
     ): void {
         if (null === $this->types->search($typeId)) {
-            throw new TypeNotExist($typeId);
+            throw new TypeNotExists($typeId);
         }
 
         $product = $this->repository->search($id);

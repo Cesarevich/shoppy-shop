@@ -6,7 +6,7 @@ namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Create\CreateProductCommand;
 use App\Catalog\Product\Domain\Exception\ProductAlreadyExists;
-use App\Catalog\Type\Domain\Exception\TypeNotExist;
+use App\Catalog\Type\Domain\Exception\TypeNotExists;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -43,8 +43,8 @@ final class ProductsPutController
                     self::stringFrom($payload, 'listPriceCurrency', 'BYN'),
                 ),
             );
-        } catch (TypeNotExist) {
-            return new JsonResponse(['error' => 'type_not_exist'], Response::HTTP_BAD_REQUEST);
+        } catch (TypeNotExists) {
+            return new JsonResponse(['error' => 'type_not_exists'], Response::HTTP_BAD_REQUEST);
         } catch (ProductAlreadyExists) {
             return new JsonResponse(['error' => 'product_already_exists'], Response::HTTP_CONFLICT);
         }

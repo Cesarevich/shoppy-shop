@@ -6,9 +6,9 @@ namespace App\Controller\Category;
 
 use App\Catalog\Category\Application\Command\CreateCategoryCommand;
 use App\Catalog\Category\Domain\Exception\CategoryAlreadyExists;
-use App\Catalog\Category\Domain\Exception\CategoryNotExist;
+use App\Catalog\Category\Domain\Exception\CategoryNotExists;
 use App\Catalog\Category\Domain\Exception\CategoryParentTypeMismatch;
-use App\Catalog\Type\Domain\Exception\TypeNotExist;
+use App\Catalog\Type\Domain\Exception\TypeNotExists;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,10 +39,10 @@ final class CategoriesPutController // toDo check (s) in TypesPutController
             );
         } catch (CategoryAlreadyExists) {
             return new JsonResponse(['error' => 'category_already_exists'], Response::HTTP_CONFLICT);
-        } catch (TypeNotExist) {
-            return new JsonResponse(['error' => 'type_not_exist'], Response::HTTP_BAD_REQUEST);
-        } catch (CategoryNotExist) {
-            return new JsonResponse(['error' => 'category_not_exist'], Response::HTTP_BAD_REQUEST);
+        } catch (TypeNotExists) {
+            return new JsonResponse(['error' => 'type_not_exists'], Response::HTTP_BAD_REQUEST);
+        } catch (CategoryNotExists) {
+            return new JsonResponse(['error' => 'category_not_exists'], Response::HTTP_BAD_REQUEST);
         } catch (CategoryParentTypeMismatch) {
             return new JsonResponse(['error' => 'category_parent_type_mismatch'], Response::HTTP_BAD_REQUEST);
         }

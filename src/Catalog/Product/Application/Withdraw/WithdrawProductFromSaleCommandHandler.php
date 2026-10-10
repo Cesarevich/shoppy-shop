@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Catalog\Product\Application\Withdraw;
 
-use App\Catalog\Product\Domain\Exception\ProductNotExist;
+use App\Catalog\Product\Domain\Exception\ProductNotExists;
 use App\Catalog\Product\Domain\Repository\ProductRepository;
 use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Shared\Domain\Bus\Command\CommandHandler;
@@ -22,7 +22,7 @@ final readonly class WithdrawProductFromSaleCommandHandler implements CommandHan
         $productId = new ProductId($command->id());
         $product = $this->repository->search($productId);
         if (null === $product) {
-            throw new ProductNotExist($productId);
+            throw new ProductNotExists($productId);
         }
 
         $product->withdraw();

@@ -27,7 +27,7 @@ final class ProductCategoryTypeMismatch extends DomainError
     protected function errorMessage(): string
     {
         return sprintf(
-            'The product Id <%s> and category Id <%s> does not suit type <%s>',
+            'The product <%s> and category <%s> do not match type <%s>',
             $this->productId->value(),
             $this->categoryId->value(),
             $this->typeId->value(),
