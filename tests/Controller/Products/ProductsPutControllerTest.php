@@ -51,7 +51,7 @@ final class ProductsPutControllerTest extends ProductsWebTestCase
 
         self::assertResponseStatusCodeSame(400);
         self::assertJsonStringEqualsJsonString(
-            '{"error":"type_not_exist"}',
+            '{"error":"type_not_exists"}',
             (string) $this->client->getResponse()->getContent(),
         );
     }

@@ -7,7 +7,7 @@ namespace App\Catalog\Type\Domain\Exception;
 use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\DomainError;
 
-final class TypeNotExist extends DomainError
+final class TypeNotExists extends DomainError
 {
     public function __construct(private readonly TypeId $id)
     {
@@ -16,7 +16,7 @@ final class TypeNotExist extends DomainError
 
     public function errorCode(): string
     {
-        return 'type_not_exist';
+        return 'type_not_exists';
     }
 
     protected function errorMessage(): string

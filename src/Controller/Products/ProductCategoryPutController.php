@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Products;
 
-use App\Catalog\Category\Domain\Exception\CategoryNotExist;
+use App\Catalog\Category\Domain\Exception\CategoryNotExists;
 use App\Catalog\Product\Application\Command\CreateProductCategoryCommand;
 use App\Catalog\Product\Domain\Exception\ProductCategoryAlreadyExists;
 use App\Catalog\Product\Domain\Exception\ProductCategoryTypeMismatch;
-use App\Catalog\Product\Domain\Exception\ProductNotExist;
+use App\Catalog\Product\Domain\Exception\ProductNotExists;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,10 +35,10 @@ final class ProductCategoryPutController
                     $categoryId,
                 ),
             );
-        } catch (ProductNotExist) {
-            return new JsonResponse(['error' => 'product_not_exist'], Response::HTTP_BAD_REQUEST);
-        } catch (CategoryNotExist) {
-            return new JsonResponse(['error' => 'category_not_exist'], Response::HTTP_BAD_REQUEST);
+        } catch (ProductNotExists) {
+            return new JsonResponse(['error' => 'product_not_exists'], Response::HTTP_BAD_REQUEST);
+        } catch (CategoryNotExists) {
+            return new JsonResponse(['error' => 'category_not_exists'], Response::HTTP_BAD_REQUEST);
         } catch (ProductCategoryTypeMismatch) {
             return new JsonResponse(['error' => 'product_category_type_mismatch'], Response::HTTP_BAD_REQUEST);
         } catch (ProductCategoryAlreadyExists) {

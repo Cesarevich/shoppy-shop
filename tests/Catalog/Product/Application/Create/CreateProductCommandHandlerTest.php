@@ -9,7 +9,7 @@ use App\Catalog\Product\Application\Create\ProductCreator;
 use App\Catalog\Product\Domain\Event\ProductCreatedDomainEvent;
 use App\Catalog\Product\Domain\Product;
 use App\Catalog\Product\Domain\Repository\ProductRepository;
-use App\Catalog\Type\Domain\Exception\TypeNotExist;
+use App\Catalog\Type\Domain\Exception\TypeNotExists;
 use App\Catalog\Type\Domain\Repository\TypeRepository;
 use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\Bus\Event\EventBus;
@@ -72,7 +72,7 @@ final class CreateProductCommandHandlerTest extends TestCase
 
         $handler = new CreateProductCommandHandler(new ProductCreator($repository, $types, $eventBus));
 
-        $this->expectException(TypeNotExist::class);
+        $this->expectException(TypeNotExists::class);
         $handler->__invoke($command);
     }
 }

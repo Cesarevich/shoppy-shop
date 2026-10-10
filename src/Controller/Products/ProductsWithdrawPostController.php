@@ -6,7 +6,7 @@ namespace App\Controller\Products;
 
 use App\Catalog\Product\Application\Withdraw\WithdrawProductFromSaleCommand;
 use App\Catalog\Product\Domain\Exception\ProductAlreadyWithdrawn;
-use App\Catalog\Product\Domain\Exception\ProductNotExist;
+use App\Catalog\Product\Domain\Exception\ProductNotExists;
 use App\Catalog\Product\Domain\Exception\ProductNotOnSale;
 use App\Shared\Domain\Bus\Command\CommandBus;
 use App\Shared\Domain\ValueObject\Uuid;
@@ -29,8 +29,8 @@ final class ProductsWithdrawPostController
                     $id,
                 ),
             );
-        } catch (ProductNotExist) {
-            return new JsonResponse(['error' => 'product_not_exist'], Response::HTTP_NOT_FOUND);
+        } catch (ProductNotExists) {
+            return new JsonResponse(['error' => 'product_not_exists'], Response::HTTP_NOT_FOUND);
         } catch (ProductAlreadyWithdrawn) {
             return new JsonResponse(['error' => 'product_already_withdrawn'], Response::HTTP_CONFLICT);
         } catch (ProductNotOnSale) {

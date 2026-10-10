@@ -7,7 +7,7 @@ namespace App\Catalog\Product\Domain\Exception;
 use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Shared\Domain\DomainError;
 
-final class ProductNotExist extends DomainError
+final class ProductNotExists extends DomainError
 {
     public function __construct(private readonly ProductId $id)
     {
@@ -16,7 +16,7 @@ final class ProductNotExist extends DomainError
 
     public function errorCode(): string
     {
-        return 'product_not_exist';
+        return 'product_not_exists';
     }
 
     protected function errorMessage(): string

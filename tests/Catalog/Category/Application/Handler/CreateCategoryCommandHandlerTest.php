@@ -9,11 +9,11 @@ use App\Catalog\Category\Application\Service\CategoryCreator;
 use App\Catalog\Category\Domain\Category;
 use App\Catalog\Category\Domain\Event\CategoryCreatedDomainEvent;
 use App\Catalog\Category\Domain\Exception\CategoryAlreadyExists;
-use App\Catalog\Category\Domain\Exception\CategoryNotExist;
+use App\Catalog\Category\Domain\Exception\CategoryNotExists;
 use App\Catalog\Category\Domain\Exception\CategoryParentTypeMismatch;
 use App\Catalog\Category\Domain\Repository\CategoryRepository;
 use App\Catalog\Category\Domain\ValueObject\CategoryId;
-use App\Catalog\Type\Domain\Exception\TypeNotExist;
+use App\Catalog\Type\Domain\Exception\TypeNotExists;
 use App\Catalog\Type\Domain\Repository\TypeRepository;
 use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Shared\Domain\Bus\Event\EventBus;
@@ -114,7 +114,7 @@ final class CreateCategoryCommandHandlerTest extends TestCase
         $eventBus = $this->createMock(EventBus::class);
         $eventBus->expects($this->never())->method('publish');
 
-        $this->expectException(TypeNotExist::class);
+        $this->expectException(TypeNotExists::class);
         $this->handler($categories, $repository, $eventBus)->__invoke($command);
     }
 
@@ -153,7 +153,7 @@ final class CreateCategoryCommandHandlerTest extends TestCase
         $eventBus = $this->createMock(EventBus::class);
         $eventBus->expects($this->never())->method('publish');
 
-        $this->expectException(CategoryNotExist::class);
+        $this->expectException(CategoryNotExists::class);
         $this->handler($categories, $repository, $eventBus)->__invoke($command);
     }
 

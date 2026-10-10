@@ -7,7 +7,7 @@ namespace App\Tests\Catalog\Product\Application\Change;
 use App\Catalog\Product\Application\Change\ChangeProductCommandHandler;
 use App\Catalog\Product\Application\Change\ProductChange;
 use App\Catalog\Product\Domain\Event\ProductChangedDomainEvent;
-use App\Catalog\Product\Domain\Exception\ProductNotExist;
+use App\Catalog\Product\Domain\Exception\ProductNotExists;
 use App\Catalog\Product\Domain\Product;
 use App\Catalog\Product\Domain\Repository\ProductRepository;
 use App\Catalog\Product\Domain\ValueObject\ProductId;
@@ -66,7 +66,7 @@ final class ChangeProductCommandHandlerTest extends TestCase
 
         $handler = new ChangeProductCommandHandler(new ProductChange($repository, $eventBus));
 
-        $this->expectException(ProductNotExist::class);
+        $this->expectException(ProductNotExists::class);
         $handler->__invoke($command);
     }
 }
