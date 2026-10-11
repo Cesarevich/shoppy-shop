@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Catalog\Product\Application\Create;
 
-use App\Catalog\Product\Domain\ProductDetails;
 use App\Catalog\Product\Domain\ValueObject\Dimensions;
 use App\Catalog\Product\Domain\ValueObject\Ean;
 use App\Catalog\Product\Domain\ValueObject\Money;
 use App\Catalog\Product\Domain\ValueObject\ProductDescription;
+use App\Catalog\Product\Domain\ValueObject\ProductDetails;
 use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Catalog\Product\Domain\ValueObject\ProductTitle;
 use App\Catalog\Product\Domain\ValueObject\Year;

@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Type\Application\Handler;
+namespace App\Catalog\Type\Application\Create;
 
-use App\Catalog\Type\Application\Command\CreateTypeCommand;
-use App\Catalog\Type\Application\Service\TypeCreator;
 use App\Catalog\Type\Domain\ValueObject\TypeCode;
 use App\Catalog\Type\Domain\ValueObject\TypeId;
 use App\Catalog\Type\Domain\ValueObject\TypeTitle;

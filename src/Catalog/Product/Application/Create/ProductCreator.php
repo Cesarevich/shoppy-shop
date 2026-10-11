@@ -6,8 +6,8 @@ namespace App\Catalog\Product\Application\Create;
 
 use App\Catalog\Product\Domain\Exception\ProductAlreadyExists;
 use App\Catalog\Product\Domain\Product;
-use App\Catalog\Product\Domain\ProductDetails;
 use App\Catalog\Product\Domain\Repository\ProductRepository;
+use App\Catalog\Product\Domain\ValueObject\ProductDetails;
 use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Catalog\Type\Domain\Exception\TypeNotExists;
 use App\Catalog\Type\Domain\Repository\TypeRepository;
@@ -44,6 +44,7 @@ final readonly class ProductCreator
         );
 
         $this->repository->save($product);
-        $this->bus->publish(...$product->pullDomainEvents());
+        $this->bus->publish(...$product->pullDomainEvents()); // toDo это не ответсвтенность сервиса !!! а хендлера
+        //todo допустим хендлер возвращает ивент и так избавиться от зависимости
     }
 }

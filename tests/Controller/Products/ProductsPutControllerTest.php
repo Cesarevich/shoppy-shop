@@ -55,4 +55,22 @@ final class ProductsPutControllerTest extends ProductsWebTestCase
             (string) $this->client->getResponse()->getContent(),
         );
     }
+
+    public function testRejectsWhenProductAlreadyExists(): void
+    {
+        $product = $this->storeProduct();
+        $command = CreateProductCommandMother::create(
+            id: $product->id()->value(),
+            typeId: $product->typeId()->value(),
+        );
+
+        $this->client->jsonRequest('PUT', '/products/' . $product->id()->value(), self::productPayload($command));
+
+        self::assertResponseStatusCodeSame(409);
+        self::assertJsonStringEqualsJsonString(
+            '{"error":"product_already_exists"}',
+            (string) $this->client->getResponse()->getContent(),
+        );
+    }
+
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Catalog\Category\Domain;
 
-use App\Catalog\Category\Application\Command\CreateCategoryCommand;
+use App\Catalog\Category\Application\Create\CreateCategoryCommand;
 use App\Catalog\Category\Domain\Category;
 use App\Catalog\Category\Domain\ValueObject\CategoryId;
 use App\Catalog\Category\Domain\ValueObject\CategoryTitle;

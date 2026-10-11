@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Category;
 
-use App\Catalog\Category\Application\Command\CreateCategoryCommand;
+use App\Catalog\Category\Application\Create\CreateCategoryCommand;
 use App\Catalog\Category\Domain\Exception\CategoryAlreadyExists;
 use App\Catalog\Category\Domain\Exception\CategoryNotExists;
 use App\Catalog\Category\Domain\Exception\CategoryParentTypeMismatch;

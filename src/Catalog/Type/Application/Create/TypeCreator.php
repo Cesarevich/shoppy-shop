@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Type\Application\Service;
+namespace App\Catalog\Type\Application\Create;
 
 use App\Catalog\Type\Domain\Exception\TypeAlreadyExists;
 use App\Catalog\Type\Domain\Exception\TypeCodeAlreadyExists;

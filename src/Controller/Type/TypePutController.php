@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Type;
 
-use App\Catalog\Type\Application\Command\CreateTypeCommand;
+use App\Catalog\Type\Application\Create\CreateTypeCommand;
 use App\Catalog\Type\Domain\Exception\TypeAlreadyExists;
 use App\Catalog\Type\Domain\Exception\TypeCodeAlreadyExists;
 use App\Shared\Domain\Bus\Command\CommandBus;

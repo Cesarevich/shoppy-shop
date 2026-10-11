@@ -24,9 +24,10 @@ final class ProductCategoryAlreadyExists extends DomainError
 
     protected function errorMessage(): string
     {
-        return sprintf('The product <%s> is already in category <%s>',
+        return sprintf(
+            'The product <%s> is already in category <%s>',
             $this->productId->value(),
-            $this->categoryId->value()
+            $this->categoryId->value(),
         );
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Catalog\Category\Application\Handler;
 
-use App\Catalog\Category\Application\Command\CreateCategoryCommand;
+use App\Catalog\Category\Application\Create\CreateCategoryCommand;
 
 final class CreateCategoryCommandMother
 {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Catalog\Product\Domain\Event;
 
 use App\Catalog\Product\Domain\Product;
-use App\Catalog\Product\Domain\ProductDetails;
 use App\Catalog\Product\Domain\ValueObject\Dimensions;
+use App\Catalog\Product\Domain\ValueObject\ProductDetails;
 use App\Shared\Domain\Bus\Event\DomainEvent;
 
 final class ProductChangedDomainEvent extends DomainEvent

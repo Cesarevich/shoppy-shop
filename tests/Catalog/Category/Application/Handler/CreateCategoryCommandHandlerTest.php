@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Catalog\Category\Application\Handler;
 
-use App\Catalog\Category\Application\Handler\CreateCategoryCommandHandler;
-use App\Catalog\Category\Application\Service\CategoryCreator;
-use App\Catalog\Category\Domain\Category;
-use App\Catalog\Category\Domain\Event\CategoryCreatedDomainEvent;
+use App\Catalog\Category\Application\Create\CreateCategoryCommandHandler;
 use App\Catalog\Category\Domain\Exception\CategoryAlreadyExists;
 use App\Catalog\Category\Domain\Exception\CategoryNotExists;
 use App\Catalog\Category\Domain\Exception\CategoryParentTypeMismatch;
 use App\Catalog\Category\Domain\Repository\CategoryRepository;
 use App\Catalog\Category\Domain\ValueObject\CategoryId;
+use App\Catalog\Category\Infrastructure\Persistence\InMemoryCategoryRepository;
 use App\Catalog\Type\Domain\Exception\TypeNotExists;
 use App\Catalog\Type\Domain\Repository\TypeRepository;
 use App\Catalog\Type\Domain\ValueObject\TypeId;
+use App\Catalog\Type\Infrastructure\Persistence\InMemoryTypeRepository;
 use App\Shared\Domain\Bus\Event\EventBus;
 use App\Tests\Catalog\Category\Domain\CategoryMother;
 use App\Tests\Catalog\Type\Domain\TypeMother;
@@ -26,116 +25,76 @@ final class CreateCategoryCommandHandlerTest extends TestCase
     public function testCreatesRootCategory(): void
     {
         $command = CreateCategoryCommandMother::create();
-        $category = CategoryMother::fromCommand($command);
         $type = TypeMother::create(id: new TypeId($command->typeId()));
 
-        $repository = $this->createMock(TypeRepository::class);
-        $repository->expects($this->once())
-            ->method('search')
-            ->with($this->callback(
-                static fn(TypeId $typeId): bool => $typeId->equals($type->id()),
-            ))
-            ->willReturn($type);
+        $typeRepository = new InMemoryTypeRepository();
+        $typeRepository->save($type);
 
-        $categories = $this->createMock(CategoryRepository::class);
-        $categories->expects($this->once())
-            ->method('search')
-            ->with($this->callback(
-                static fn(CategoryId $id): bool => $id->equals($category->id()),
-            ))
-            ->willReturn(null);
-        $categories->expects($this->once())
-            ->method('save')
-            ->with($this->callback(
-                static fn(Category $saved): bool => $saved->id()->equals($category->id())
-                    && $saved->title()->equals($category->title())
-                    && $saved->typeId()->equals($category->typeId())
-                    && null === $saved->parentId(),
-            ));
+        $categoryRepository = new InMemoryCategoryRepository();
+        $eventBus = $this->createStub(EventBus::class);
 
-        $eventBus = $this->createMock(EventBus::class);
-        $eventBus->expects($this->once())
-            ->method('publish')
-            ->with($this->callback(
-                static fn(CategoryCreatedDomainEvent $event): bool => $event->aggregateId() === $category->id()->value()
-                    && 'category.created' === $event::eventName(),
-            ));
+        $this->handler($categoryRepository, $typeRepository, $eventBus)->__invoke($command);
 
-        $this->handler($categories, $repository, $eventBus)->__invoke($command);
+        $savedCategory = $categoryRepository->search(new CategoryId($command->id()));
+        self::assertNotNull($savedCategory);
+        self::assertSame($command->id(), $savedCategory->id()->value());
+        self::assertSame($command->title(), $savedCategory->title()->value());
+        self::assertSame($command->typeId(), $savedCategory->typeId()->value());
+        self::assertNull($savedCategory->parentId());
     }
 
     public function testCreatesChildWhenParentHasTheSameType(): void
     {
-        $parent = CategoryMother::create(typeId: new TypeId('3c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e17'));
-        $command = CreateCategoryCommandMother::create(parentId: $parent->id()->value());
-        $category = CategoryMother::fromCommand($command);
+        $typeId = '3c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e17';
+        $parent = CategoryMother::create(typeId: new TypeId($typeId));
+        $command = CreateCategoryCommandMother::create(
+            typeId: $typeId,
+            parentId: $parent->id()->value(),
+        );
         $type = TypeMother::create(id: new TypeId($command->typeId()));
 
-        $repository = $this->createStub(TypeRepository::class);
-        $repository->method('search')->willReturn($type);
+        $typeRepository = new InMemoryTypeRepository();
+        $typeRepository->save($type);
 
-        $categories = $this->createMock(CategoryRepository::class);
-        $categories->expects($this->exactly(2))
-            ->method('search')
-            ->willReturnCallback(static function (CategoryId $id) use ($category, $parent): ?Category {
-                if ($id->equals($parent->id())) {
-                    return $parent;
-                }
-                if ($id->equals($category->id())) {
-                    return null;
-                }
+        $categoryRepository = new InMemoryCategoryRepository();
+        $categoryRepository->save($parent);
+        $eventBus = $this->createStub(EventBus::class);
 
-                return null;
-            });
-        $categories->expects($this->once())
-            ->method('save')
-            ->with($this->callback(
-                static fn(Category $saved): bool => $saved->id()->equals($category->id())
-                    && $saved->parentId()?->equals($parent->id()),
-            ));
-
-        $eventBus = $this->createMock(EventBus::class);
-        $eventBus->expects($this->once())->method('publish');
-
-        $this->handler($categories, $repository, $eventBus)->__invoke($command);
+        $this->handler($categoryRepository, $typeRepository, $eventBus)->__invoke($command);
+        $savedCategory = $categoryRepository->search(new CategoryId($command->id()));
+        self::assertNotNull($savedCategory);
+        self::assertSame($command->id(), $savedCategory->id()->value());
+        self::assertSame($command->title(), $savedCategory->title()->value());
+        self::assertSame($command->typeId(), $savedCategory->typeId()->value());
+        self::assertSame($parent->id()->value(), $savedCategory->parentId()?->value());
     }
 
     public function testFailsWhenTypeDoesNotExist(): void
     {
         $command = CreateCategoryCommandMother::create();
 
-        $repository = $this->createMock(TypeRepository::class);
-        $repository->expects($this->once())->method('search')->willReturn(null);
-
-        $categories = $this->createMock(CategoryRepository::class);
-        $categories->expects($this->never())->method('search');
-        $categories->expects($this->never())->method('save');
-
-        $eventBus = $this->createMock(EventBus::class);
-        $eventBus->expects($this->never())->method('publish');
+        $typeRepository = new InMemoryTypeRepository();
+        $categoryRepository = new InMemoryCategoryRepository();
+        $eventBus = $this->createStub(EventBus::class);
 
         $this->expectException(TypeNotExists::class);
-        $this->handler($categories, $repository, $eventBus)->__invoke($command);
+        $this->handler($categoryRepository, $typeRepository, $eventBus)->__invoke($command);
     }
 
     public function testFailsWhenCategoryAlreadyExists(): void
     {
         $command = CreateCategoryCommandMother::create();
-        $existing = CategoryMother::fromCommand($command);
         $type = TypeMother::create(id: new TypeId($command->typeId()));
 
-        $repository = $this->createStub(TypeRepository::class);
-        $repository->method('search')->willReturn($type);
+        $typeRepository = new InMemoryTypeRepository();
+        $typeRepository->save($type);
 
-        $categories = $this->createMock(CategoryRepository::class);
-        $categories->expects($this->once())->method('search')->willReturn($existing);
-        $categories->expects($this->never())->method('save');
-
-        $eventBus = $this->createMock(EventBus::class);
-        $eventBus->expects($this->never())->method('publish');
+        $categoryRepository = new InMemoryCategoryRepository();
+        $categoryRepository->save(CategoryMother::fromCommand($command));
+        $eventBus = $this->createStub(EventBus::class);
 
         $this->expectException(CategoryAlreadyExists::class);
-        $this->handler($categories, $repository, $eventBus)->__invoke($command);
+        $this->handler($categoryRepository, $typeRepository, $eventBus)->__invoke($command);
     }
 
     public function testFailsWhenParentDoesNotExist(): void
@@ -143,50 +102,34 @@ final class CreateCategoryCommandHandlerTest extends TestCase
         $command = CreateCategoryCommandMother::create(parentId: '7ec0bd7f-11c0-43da-975e-2a8ad9ebae0c');
         $type = TypeMother::create(id: new TypeId($command->typeId()));
 
-        $repository = $this->createStub(TypeRepository::class);
-        $repository->method('search')->willReturn($type);
+        $typeRepository = new InMemoryTypeRepository();
+        $typeRepository->save($type);
 
-        $categories = $this->createMock(CategoryRepository::class);
-        $categories->method('search')->willReturn(null);
-        $categories->expects($this->never())->method('save');
-
-        $eventBus = $this->createMock(EventBus::class);
-        $eventBus->expects($this->never())->method('publish');
+        $categoryRepository = new InMemoryCategoryRepository();
+        $eventBus = $this->createStub(EventBus::class);
 
         $this->expectException(CategoryNotExists::class);
-        $this->handler($categories, $repository, $eventBus)->__invoke($command);
+        $this->handler($categoryRepository, $typeRepository, $eventBus)->__invoke($command);
     }
 
     public function testFailsWhenParentTypeDiffers(): void
     {
-        $parent = CategoryMother::create(typeId: new TypeId('4c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e18'));
-        $command = CreateCategoryCommandMother::create(parentId: $parent->id()->value());
-        $category = CategoryMother::fromCommand($command);
+        $parent = CategoryMother::create();
+        $command = CreateCategoryCommandMother::create(
+            typeId: '3c8f8d2e-6b1a-4f3c-9e7d-2a4b6c8d0e17',
+            parentId: $parent->id()->value(),
+        );
         $type = TypeMother::create(id: new TypeId($command->typeId()));
 
-        $repository = $this->createStub(TypeRepository::class);
-        $repository->method('search')->willReturn($type);
+        $typeRepository = new InMemoryTypeRepository();
+        $typeRepository->save($type);
 
-        $categories = $this->createMock(CategoryRepository::class);
-        $categories->method('search')->willReturnCallback(
-            static function (CategoryId $id) use ($category, $parent): ?Category {
-                if ($id->equals($parent->id())) {
-                    return $parent;
-                }
-                if ($id->equals($category->id())) {
-                    return null;
-                }
-
-                return null;
-            },
-        );
-        $categories->expects($this->never())->method('save');
-
-        $eventBus = $this->createMock(EventBus::class);
-        $eventBus->expects($this->never())->method('publish');
+        $categoryRepository = new InMemoryCategoryRepository();
+        $categoryRepository->save($parent);
+        $eventBus = $this->createStub(EventBus::class);
 
         $this->expectException(CategoryParentTypeMismatch::class);
-        $this->handler($categories, $repository, $eventBus)->__invoke($command);
+        $this->handler($categoryRepository, $typeRepository, $eventBus)->__invoke($command);
     }
 
     private function handler(
@@ -194,6 +137,6 @@ final class CreateCategoryCommandHandlerTest extends TestCase
         TypeRepository $repository,
         EventBus $eventBus,
     ): CreateCategoryCommandHandler {
-        return new CreateCategoryCommandHandler(new CategoryCreator($categories, $repository, $eventBus));
+        return new CreateCategoryCommandHandler($categories, $repository, $eventBus);
     }
 }

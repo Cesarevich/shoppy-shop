@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Catalog\Product\Application\Service;
+namespace App\Catalog\Product\Application\CreateProductCategory;
 
 use App\Catalog\Category\Domain\Exception\CategoryNotExists;
 use App\Catalog\Category\Domain\Repository\CategoryRepository;

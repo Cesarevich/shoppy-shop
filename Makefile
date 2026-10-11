@@ -33,14 +33,14 @@ ps:
 
 restart: down up
 
-test:
+test: check
 	docker compose exec php-fpm php bin/phpunit
 
 fix:
-	docker compose exec php-fpm composer cs:fix
+	docker compose exec php-fpm vendor/bin/php-cs-fixer fix
 
 check:
-	docker compose exec php-fpm composer cs:check
+	docker compose exec php-fpm vendor/bin/php-cs-fixer fix --dry-run --diff
 
 phpstan:
 	docker compose exec php-fpm vendor/bin/phpstan analyse -c phpstan.neon --ansi

@@ -10,7 +10,7 @@
         <field name="typeId" type="type_id" column="type_id" length="36" />
         <field name="listingStatus" column="listing_status" length="32" enum-type="App\Catalog\Product\Domain\ListingStatus" />
 
-        <embedded name="productDetails" class="App\Catalog\Product\Domain\ProductDetails" use-column-prefix="false" />
+        <embedded name="productDetails" class="App\Catalog\Product\Domain\ValueObject\ProductDetails" use-column-prefix="false" />
     </entity>
 
 </doctrine-mapping>

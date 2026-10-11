@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Products;
 
 use App\Catalog\Category\Domain\Exception\CategoryNotExists;
-use App\Catalog\Product\Application\Command\CreateProductCategoryCommand;
+use App\Catalog\Product\Application\CreateProductCategory\CreateProductCategoryCommand;
 use App\Catalog\Product\Domain\Exception\ProductCategoryAlreadyExists;
 use App\Catalog\Product\Domain\Exception\ProductCategoryTypeMismatch;
 use App\Catalog\Product\Domain\Exception\ProductNotExists;
@@ -17,14 +17,15 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
-final class ProductCategoryPutController
+final class ProductsCategoryPutController
 {
     public function __construct(private readonly CommandBus $commandBus) {}
 
-    #[Route('/products/{productId}/categories/{categoryId}',
+    #[Route(
+        '/products/{productId}/categories/{categoryId}',
         name: 'products_category_put',
         methods: ['PUT'],
-        requirements: ['productId' => Uuid::PATTERN, 'categoryId' => Uuid::PATTERN]
+        requirements: ['productId' => Uuid::PATTERN, 'categoryId' => Uuid::PATTERN],
     )]
     public function __invoke(string $productId, string $categoryId): Response
     {
@@ -48,4 +49,3 @@ final class ProductCategoryPutController
         return new Response('', Response::HTTP_CREATED);
     }
 }
-
