@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller\Products;
 
+use App\Catalog\Category\Domain\Category;
+use App\Catalog\Category\Domain\ValueObject\CategoryId;
 use App\Catalog\Product\Application\Create\CreateProductCommand;
 use App\Catalog\Product\Domain\ListingStatus;
 use App\Catalog\Product\Domain\Product;
+use App\Catalog\Product\Domain\Repository\ProductCategoryRepository;
 use App\Catalog\Product\Domain\Repository\ProductRepository;
 use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Catalog\Type\Domain\Type;
+use App\Catalog\Type\Domain\ValueObject\TypeId;
+use App\Tests\Catalog\Category\Domain\CategoryMother;
 use App\Tests\Catalog\Product\Domain\ProductMother;
 use App\Tests\Catalog\Type\Domain\TypeMother;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,6 +52,32 @@ abstract class ProductsWebTestCase extends WebTestCase
         $this->persist($product);
 
         return $product;
+    }
+
+    protected function storeCategory(TypeId $typeId): Category
+    {
+        $category = CategoryMother::create(
+            typeId: $typeId,
+        );
+
+        $this->persist($category);
+
+        return $category;
+    }
+
+    protected function assertStoredProductCategory(ProductId $productId, CategoryId $categoryId): void
+    {
+        $this->entityManager()->clear();
+
+        /** @var ProductCategoryRepository $productCategories */
+        $productCategories = self::getContainer()->get(ProductCategoryRepository::class);
+        $productCategory = $productCategories->search($productId);
+        if (null === $productCategory) {
+            throw new LogicException(sprintf('Product category for <%s> was not found after request.', $productId->value()));
+        }
+
+        self::assertTrue($productCategory->productId()->equals($productId));
+        self::assertTrue($productCategory->categoryId()->equals($categoryId));
     }
 
     protected function assertStoredProductHasListingStatus(ListingStatus $expected, ProductId $id): void

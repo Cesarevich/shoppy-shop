@@ -34,7 +34,7 @@ ps:
 restart: down up
 
 test: check
-	docker compose exec php-fpm php bin/phpunit
+	docker compose exec php-fpm php bin/phpunit --display-all-issues
 
 fix:
 	docker compose exec php-fpm vendor/bin/php-cs-fixer fix

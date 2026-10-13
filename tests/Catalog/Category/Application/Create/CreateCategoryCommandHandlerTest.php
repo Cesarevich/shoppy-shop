@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Catalog\Category\Application\Handler;
+namespace App\Tests\Catalog\Category\Application\Create;
 
 use App\Catalog\Category\Application\Create\CreateCategoryCommandHandler;
 use App\Catalog\Category\Domain\Exception\CategoryAlreadyExists;

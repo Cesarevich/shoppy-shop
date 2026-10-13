@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Catalog\Product\Application\Command;
+namespace App\Tests\Catalog\Product\Application\CreateProductCategory;
 
 use App\Catalog\Product\Application\CreateProductCategory\CreateProductCategoryCommand;
 

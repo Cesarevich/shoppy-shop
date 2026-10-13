@@ -9,7 +9,8 @@ use App\Catalog\Product\Domain\Event\ProductCategoryCreatedDomainEvent;
 use App\Catalog\Product\Domain\ValueObject\ProductId;
 use App\Shared\Domain\Aggregate\AggregateRoot;
 
-final class ProductCategory extends AggregateRoot
+final class ProductCategory extends AggregateRoot // todo это не агрегат, а объект который добавляет связь это должно принадлежать или одной или другой
+    // аггрегату и что-то типа коллекции внутри которой есть метод add и через него добавлять связь
 {
     public function __construct(
         private readonly ProductId $productId,

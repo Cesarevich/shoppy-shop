@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Catalog\ProductHistory\Application\Record;
+namespace App\Tests\Catalog\ProductHistory\Application\Record\Subscriber;
 
 use App\Catalog\Product\Domain\Event\ProductListedDomainEvent;
 use App\Catalog\Product\Domain\ListingStatus;
 use App\Catalog\ProductHistory\Application\Record\ProductHistoryRecorder;
-use App\Catalog\ProductHistory\Application\Record\RecordProductHistoryOnProductListed;
+use App\Catalog\ProductHistory\Application\Record\Subscriber\RecordProductHistoryOnProductListed;
 use App\Catalog\ProductHistory\Infrastructure\Persistence\InMemoryProductHistoryRepository;
 use App\Shared\Domain\ValueObject\SimpleUuid;
 use PHPUnit\Framework\TestCase;
