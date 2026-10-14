@@ -9,6 +9,7 @@ use App\Catalog\Type\Domain\Type;
 use App\Catalog\Type\Domain\ValueObject\TypeCode;
 use App\Catalog\Type\Domain\ValueObject\TypeId;
 
+// toDo написать тесты которые докажут что доктрина и этот тест работают одинаково
 final class InMemoryTypeRepository implements TypeRepository
 {
     /** @var array<string, Type> */

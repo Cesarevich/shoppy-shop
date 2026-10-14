@@ -1,0 +1,73 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Unit\Catalog\Product\Application\Change;
+
+use App\Catalog\Product\Application\Change\ChangeProductCommandHandler;
+use App\Catalog\Product\Application\Change\ProductChange;
+use App\Catalog\Product\Domain\Event\ProductChangedDomainEvent;
+use App\Catalog\Product\Domain\Exception\ProductNotExists;
+use App\Catalog\Product\Domain\Product;
+use App\Catalog\Product\Domain\Repository\ProductRepository;
+use App\Catalog\Product\Domain\ValueObject\ProductId;
+use App\Shared\Domain\Bus\Event\EventBus;
+use App\Tests\Mother\Catalog\Product\ProductMother;
+use App\Tests\Mother\Catalog\Product\ChangeProductCommandMother;
+use PHPUnit\Framework\TestCase;
+
+final class ChangeProductCommandHandlerTest extends TestCase
+{
+    public function testChangesExistingProduct(): void
+    {
+        $existing = ProductMother::create();
+        $command = ChangeProductCommandMother::create(id: $existing->id()->value(), title: 'Clean Architecture revised');
+
+        $repository = $this->createMock(ProductRepository::class);
+        $repository->expects($this->once())
+            ->method('search')
+            ->with($this->callback(
+                static fn(ProductId $id): bool => $id->equals($existing->id()),
+            ))
+            ->willReturn($existing);
+        $repository->expects($this->once())
+            ->method('save')
+            ->with($this->callback(
+                static fn(Product $saved): bool => $saved->id()->equals($existing->id())
+                    && $saved->typeId()->equals($existing->typeId())
+                    && $saved->title()->value() === $command->title()
+                    && $saved->year()?->value() === $command->year()
+                    && $saved->listingStatus() === $existing->listingStatus(),
+            ));
+
+        $eventBus = $this->createMock(EventBus::class);
+        $eventBus->expects($this->once())
+            ->method('publish')
+            ->with($this->callback(
+                static fn(ProductChangedDomainEvent $event): bool => $event->aggregateId() === $existing->id()->value()
+                    && 'product.changed' === $event::eventName(),
+            ));
+
+        $handler = new ChangeProductCommandHandler(new ProductChange($repository, $eventBus));
+        $handler->__invoke($command);
+    }
+
+    public function testFailsWhenProductDoesNotExist(): void
+    {
+        $command = ChangeProductCommandMother::create();
+
+        $repository = $this->createMock(ProductRepository::class);
+        $repository->expects($this->once())
+            ->method('search')
+            ->willReturn(null);
+        $repository->expects($this->never())->method('save');
+
+        $eventBus = $this->createMock(EventBus::class);
+        $eventBus->expects($this->never())->method('publish');
+
+        $handler = new ChangeProductCommandHandler(new ProductChange($repository, $eventBus));
+
+        $this->expectException(ProductNotExists::class);
+        $handler->__invoke($command);
+    }
+}
